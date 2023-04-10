@@ -4,6 +4,8 @@
  */
 package koshin;
 
+import javax.swing.UIManager;
+
 /**
  *
  * @author brendantwhite
@@ -26,49 +28,111 @@ public class Koshin extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        manifestFilePathTextNameLabel = new javax.swing.JLabel();
+        manifestFilePathTextName = new javax.swing.JTextField();
+        manifestFilePathTextNameSelectButton = new javax.swing.JButton();
+        jSeparator1 = new javax.swing.JSeparator();
+        updateCustomFilesProgressBarLabel = new javax.swing.JLabel();
+        updateCustomFilesProgressBar = new javax.swing.JProgressBar();
+        updateManifestFileProgressBarLabel = new javax.swing.JLabel();
+        updateManifestFileProgressBar = new javax.swing.JProgressBar();
+        startButton = new javax.swing.JButton();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Koshin");
+        setMaximumSize(new java.awt.Dimension(2048, 332));
+        setMinimumSize(new java.awt.Dimension(340, 332));
+
+        manifestFilePathTextNameLabel.setLabelFor(manifestFilePathTextName);
+        manifestFilePathTextNameLabel.setText("Manifest File");
+
+        manifestFilePathTextName.setEditable(false);
+
+        manifestFilePathTextNameSelectButton.setText("Select...");
+        manifestFilePathTextNameSelectButton.setToolTipText("");
+        manifestFilePathTextNameSelectButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                manifestFilePathTextNameSelectButtonActionPerformed(evt);
+            }
+        });
+
+        updateCustomFilesProgressBarLabel.setLabelFor(updateCustomFilesProgressBar);
+        updateCustomFilesProgressBarLabel.setText("Update Custom Files");
+
+        updateManifestFileProgressBarLabel.setLabelFor(updateManifestFileProgressBar);
+        updateManifestFileProgressBarLabel.setText("Update Manifest File");
+
+        startButton.setText("Start");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(startButton, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(15, 15, 15)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(updateManifestFileProgressBar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jSeparator1)
+                            .addComponent(manifestFilePathTextNameLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(manifestFilePathTextName, javax.swing.GroupLayout.DEFAULT_SIZE, 548, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(manifestFilePathTextNameSelectButton, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(updateCustomFilesProgressBarLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(updateCustomFilesProgressBar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(updateManifestFileProgressBarLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(manifestFilePathTextNameLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(manifestFilePathTextName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(manifestFilePathTextNameSelectButton))
+                .addGap(27, 27, 27)
+                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(updateCustomFilesProgressBarLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(updateCustomFilesProgressBar, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(updateManifestFileProgressBarLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(updateManifestFileProgressBar, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 19, Short.MAX_VALUE)
+                .addComponent(startButton)
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void manifestFilePathTextNameSelectButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_manifestFilePathTextNameSelectButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_manifestFilePathTextNameSelectButtonActionPerformed
+
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Koshin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Koshin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Koshin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        
+        // Set System L&F
+        try { 
+            UIManager.setLookAndFeel(
+                UIManager.getSystemLookAndFeelClassName());
+        } 
+        catch (Exception ex) {
             java.util.logging.Logger.getLogger(Koshin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
-
+        
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
@@ -78,5 +142,14 @@ public class Koshin extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JTextField manifestFilePathTextName;
+    private javax.swing.JLabel manifestFilePathTextNameLabel;
+    private javax.swing.JButton manifestFilePathTextNameSelectButton;
+    private javax.swing.JButton startButton;
+    private javax.swing.JProgressBar updateCustomFilesProgressBar;
+    private javax.swing.JLabel updateCustomFilesProgressBarLabel;
+    private javax.swing.JProgressBar updateManifestFileProgressBar;
+    private javax.swing.JLabel updateManifestFileProgressBarLabel;
     // End of variables declaration//GEN-END:variables
 }
