@@ -4,6 +4,9 @@
  */
 package koshin;
 
+import java.io.File;
+import java.util.prefs.Preferences;
+import javax.swing.JFileChooser;
 import javax.swing.UIManager;
 
 /**
@@ -17,6 +20,10 @@ public class Koshin extends javax.swing.JFrame {
      */
     public Koshin() {
         initComponents();
+
+        Preferences prefs = Preferences.userNodeForPackage(Koshin.class);
+        manifestFilePathTextName.setText(prefs.get("manifest_file_path", "< click the Select button >"));
+        
     }
 
     /**
@@ -116,7 +123,19 @@ public class Koshin extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void manifestFilePathTextNameSelectButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_manifestFilePathTextNameSelectButtonActionPerformed
-        // TODO add your handling code here:
+        Preferences prefs = Preferences.userNodeForPackage(Koshin.class);
+
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setCurrentDirectory(new File(System.getProperty("user.home")));
+        
+        int result = fileChooser.showOpenDialog(this);
+        
+        if (result == JFileChooser.APPROVE_OPTION) {
+            File selectedFile = fileChooser.getSelectedFile();
+            prefs.put("manifest_file_path", selectedFile.getAbsolutePath());
+            manifestFilePathTextName.setText(selectedFile.getAbsolutePath());
+        }
+        
     }//GEN-LAST:event_manifestFilePathTextNameSelectButtonActionPerformed
 
     /**
