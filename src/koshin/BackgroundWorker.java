@@ -7,7 +7,7 @@ public class BackgroundWorker extends SwingWorker<Void, Integer> {
 // The first type is the doInBackground() method's return type 
 // The second is the process() method's return type  
 
-    private Koshin koshin;
+    private final Koshin koshin;
 
     BackgroundWorker(Koshin koshin) {
         this.koshin = koshin;
@@ -35,7 +35,12 @@ public class BackgroundWorker extends SwingWorker<Void, Integer> {
             }
             
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, e.getLocalizedMessage());
+            JOptionPane.showMessageDialog(
+                    null, 
+                    e.getStackTrace(),
+                    "Error: " + e.getLocalizedMessage(),
+                    JOptionPane.ERROR_MESSAGE
+            );
             return null;
         }
 
