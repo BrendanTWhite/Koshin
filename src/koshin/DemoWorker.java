@@ -2,6 +2,7 @@ package koshin;
 
 import java.util.List;
 import javax.swing.*;
+import koshin.DataTransferObject;
 
 
 public class DemoWorker extends SwingWorker<Void, Integer>{
@@ -11,10 +12,10 @@ by process().  If you do not want doInBackground() to return anything,
 set Void as the type argument.
 */            
 
-private JProgressBar progressBar;
+private DataTransferObject theDTO;
 
-DemoWorker(JProgressBar progressBar) {
-    this.progressBar = progressBar;
+DemoWorker(DataTransferObject theDTO) {
+    this.theDTO = theDTO;
 }
 
     @Override
@@ -23,6 +24,8 @@ DemoWorker(JProgressBar progressBar) {
         Simulate the download of a file.  We wait 1 second, then report
         20% downloaded, etc.
         */
+        
+        theDTO.startButton.setEnabled(false);
         for (int i = 1; i <= 100; i++) {
             try {
                 Thread.sleep(10);
@@ -43,7 +46,7 @@ DemoWorker(JProgressBar progressBar) {
     @Override
     protected void process(List<Integer> chunks) { // main thread
         //Grab data from the int last added to the list.
-        progressBar.setValue(chunks.get(chunks.size()-1));
+        theDTO.updateManifestFileProgressBar.setValue(chunks.get(chunks.size()-1));
     }
 
 
@@ -51,7 +54,7 @@ DemoWorker(JProgressBar progressBar) {
     @Override
     public void done() { // main thread
         //We are done, so set value to 0 in preparation for another download.
-        progressBar.setValue(0);
+        theDTO.startButton.setEnabled(true);
     }
 
 

@@ -23,17 +23,7 @@ public class Koshin extends javax.swing.JFrame {
 
         Preferences prefs = Preferences.userNodeForPackage(Koshin.class);
         manifestFilePathTextName.setText(prefs.get("manifest_file_path", "< click the Select button >"));
-        
-        // Set the details of the DTO
-//        dto.set(
-//                updateCustomFilesProgressBar,
-//                updateManifestFileProgressBar,
-//                manifestFilePathTextName
-//        );        
-
-        // Start the worker thread
-//        worker.start();                                        
-        
+                
     }
 
     /**
@@ -157,7 +147,13 @@ public class Koshin extends javax.swing.JFrame {
 
             /* this is the Go button's Action Listener */
            try {
-               new DemoWorker(updateCustomFilesProgressBar).execute();
+               DataTransferObject theDTO = new DataTransferObject(
+                       startButton,
+                       updateCustomFilesProgressBar,
+                       updateManifestFileProgressBar,
+                       manifestFilePathTextName
+               );
+               new DemoWorker(theDTO).execute();
            } catch(Exception ex) {
                ex.printStackTrace();
            }
@@ -186,48 +182,6 @@ public class Koshin extends javax.swing.JFrame {
         });
     }
     
-    
-
-
-    public class WorkerThread extends Thread {
-
-    //    DataTransferObject dto;
-    //        
-    //    public WorkerThread(DataTransferObject dto){
-    //        this.dto = dto;
-    //    }
-
-        @Override
-        public void run() {
-            System.out.println("The worker thread has started");
-
-            // the main loop runs forever
-            while (true) {
-
-                // Wait to be notified            
-                try{synchronized(this){wait();}}
-                catch (InterruptedException e){}
-
-
-                // do the thing
-
-                System.out.println("doing the thing...");
-
-
-                // we're now finished
-                System.out.println("...finished the thing");
-//                dto.setRunning(false);
-
-            }
-
-        }    
-    }
-
-
-    
-    
-    
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTextField manifestFilePathTextName;
