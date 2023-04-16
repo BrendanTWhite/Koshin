@@ -23,7 +23,7 @@ public class Koshin extends javax.swing.JFrame {
 
         Preferences prefs = Preferences.userNodeForPackage(Koshin.class);
         manifestFilePathTextName.setText(prefs.get("manifest_file_path", "< click the Select button >"));
-                
+
     }
 
     /**
@@ -132,48 +132,47 @@ public class Koshin extends javax.swing.JFrame {
 
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setCurrentDirectory(new File(System.getProperty("user.home")));
-        
+
         int result = fileChooser.showOpenDialog(this);
-        
+
         if (result == JFileChooser.APPROVE_OPTION) {
             File selectedFile = fileChooser.getSelectedFile();
             prefs.put("manifest_file_path", selectedFile.getAbsolutePath());
             manifestFilePathTextName.setText(selectedFile.getAbsolutePath());
         }
-        
+
     }//GEN-LAST:event_manifestFilePathTextNameSelectButtonActionPerformed
 
     private void startButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startButtonActionPerformed
 
-            /* this is the Go button's Action Listener */
-           try {
-               DataTransferObject theDTO = new DataTransferObject(
-                       startButton,
-                       updateCustomFilesProgressBar,
-                       updateManifestFileProgressBar,
-                       manifestFilePathTextName
-               );
-               new DemoWorker(theDTO).execute();
-           } catch(Exception ex) {
-               ex.printStackTrace();
-           }
-        
+        /* this is the Go button's Action Listener */
+        try {
+            DataTransferObject theDTO = new DataTransferObject(
+                    startButton,
+                    updateCustomFilesProgressBar,
+                    updateManifestFileProgressBar,
+                    manifestFilePathTextName
+            );
+            new BackgroundWorker(theDTO).execute();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
     }//GEN-LAST:event_startButtonActionPerformed
 
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        
+
         // Set System L&F
-        try { 
+        try {
             UIManager.setLookAndFeel(
-                UIManager.getSystemLookAndFeelClassName());
-        } 
-        catch (Exception ex) {
+                    UIManager.getSystemLookAndFeelClassName());
+        } catch (Exception ex) {
             java.util.logging.Logger.getLogger(Koshin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-                        
+
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
@@ -181,7 +180,7 @@ public class Koshin extends javax.swing.JFrame {
             }
         });
     }
-    
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTextField manifestFilePathTextName;
