@@ -24,6 +24,16 @@ public class Koshin extends javax.swing.JFrame {
         Preferences prefs = Preferences.userNodeForPackage(Koshin.class);
         manifestFilePathTextName.setText(prefs.get("manifest_file_path", "< click the Select button >"));
         
+        // Set the details of the DTO
+//        dto.set(
+//                updateCustomFilesProgressBar,
+//                updateManifestFileProgressBar,
+//                manifestFilePathTextName
+//        );        
+
+        // Start the worker thread
+//        worker.start();                                        
+        
     }
 
     /**
@@ -70,6 +80,11 @@ public class Koshin extends javax.swing.JFrame {
         updateManifestFileProgressBarLabel.setText("Update Manifest File");
 
         startButton.setText("Start");
+        startButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                startButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -138,6 +153,17 @@ public class Koshin extends javax.swing.JFrame {
         
     }//GEN-LAST:event_manifestFilePathTextNameSelectButtonActionPerformed
 
+    private void startButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startButtonActionPerformed
+
+            /* this is the Go button's Action Listener */
+           try {
+               new DemoWorker(updateCustomFilesProgressBar).execute();
+           } catch(Exception ex) {
+               ex.printStackTrace();
+           }
+        
+    }//GEN-LAST:event_startButtonActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -151,7 +177,7 @@ public class Koshin extends javax.swing.JFrame {
         catch (Exception ex) {
             java.util.logging.Logger.getLogger(Koshin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        
+                        
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
@@ -159,6 +185,48 @@ public class Koshin extends javax.swing.JFrame {
             }
         });
     }
+    
+    
+
+
+    public class WorkerThread extends Thread {
+
+    //    DataTransferObject dto;
+    //        
+    //    public WorkerThread(DataTransferObject dto){
+    //        this.dto = dto;
+    //    }
+
+        @Override
+        public void run() {
+            System.out.println("The worker thread has started");
+
+            // the main loop runs forever
+            while (true) {
+
+                // Wait to be notified            
+                try{synchronized(this){wait();}}
+                catch (InterruptedException e){}
+
+
+                // do the thing
+
+                System.out.println("doing the thing...");
+
+
+                // we're now finished
+                System.out.println("...finished the thing");
+//                dto.setRunning(false);
+
+            }
+
+        }    
+    }
+
+
+    
+    
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JSeparator jSeparator1;
