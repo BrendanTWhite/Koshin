@@ -6,8 +6,7 @@ package koshin;
 
 import java.io.File;
 import java.util.prefs.Preferences;
-import javax.swing.JFileChooser;
-import javax.swing.UIManager;
+import javax.swing.*;
 
 /**
  *
@@ -145,15 +144,8 @@ public class Koshin extends javax.swing.JFrame {
 
     private void startButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startButtonActionPerformed
 
-        /* this is the Go button's Action Listener */
         try {
-            DataTransferObject theDTO = new DataTransferObject(
-                    startButton,
-                    updateCustomFilesProgressBar,
-                    updateManifestFileProgressBar,
-                    manifestFilePathTextName
-            );
-            new BackgroundWorker(theDTO).execute();
+            new BackgroundWorker(this).execute();
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -192,4 +184,20 @@ public class Koshin extends javax.swing.JFrame {
     private javax.swing.JProgressBar updateManifestFileProgressBar;
     private javax.swing.JLabel updateManifestFileProgressBarLabel;
     // End of variables declaration//GEN-END:variables
+
+    public JButton getStartButton() {
+        return startButton;
+    }
+
+    public JButton getManifestFilePathTextNameSelectButton() {
+        return manifestFilePathTextNameSelectButton;
+    }
+
+    public JProgressBar getUpdateCustomFilesProgressBar() {
+        return updateCustomFilesProgressBar;
+    }
+
+    public JProgressBar getUpdateManifestFileProgressBar() {
+        return updateManifestFileProgressBar;
+    }
 }

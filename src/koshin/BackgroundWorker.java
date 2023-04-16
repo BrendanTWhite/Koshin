@@ -2,7 +2,6 @@ package koshin;
 
 import java.util.List;
 import javax.swing.*;
-import koshin.DataTransferObject;
 
 public class BackgroundWorker extends SwingWorker<Void, Integer> {
 
@@ -12,10 +11,10 @@ by process().  If you do not want doInBackground() to return anything,
 set Void as the type argument.
      */
 
-    private DataTransferObject theDTO;
+    private Koshin koshin;
 
-    BackgroundWorker(DataTransferObject theDTO) {
-        this.theDTO = theDTO;
+    BackgroundWorker(Koshin koshin) {
+        this.koshin = koshin;
     }
 
     @Override
@@ -25,7 +24,8 @@ set Void as the type argument.
         20% downloaded, etc.
          */
 
-        theDTO.startButton.setEnabled(false);
+        koshin.getStartButton().setEnabled(false);
+        koshin.getManifestFilePathTextNameSelectButton().setEnabled(false);
 
         try {
             
@@ -53,14 +53,15 @@ set Void as the type argument.
     @Override
     protected void process(List<Integer> chunks) { // main thread
         //Grab data from the int last added to the list.
-        theDTO.updateManifestFileProgressBar.setValue(chunks.get(chunks.size() - 1));
+        koshin.getUpdateManifestFileProgressBar().setValue(chunks.get(chunks.size() - 1));
     }
 
     //Called when doInBackground() completes.
     @Override
     public void done() { // main thread
         //We are done, so set value to 0 in preparation for another download.
-        theDTO.startButton.setEnabled(true);
+        koshin.getStartButton().setEnabled(true);
+        koshin.getManifestFilePathTextNameSelectButton().setEnabled(true);
     }
 
 }; // end class BackgroundWorker
