@@ -15,7 +15,7 @@ import javax.swing.*;
 public class Koshin extends javax.swing.JFrame {
 
     /**
-     * Creates new form Koshin
+     * Creates new form
      */
     public Koshin() {
         initComponents();

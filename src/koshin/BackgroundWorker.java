@@ -4,8 +4,8 @@ import java.util.List;
 import javax.swing.*;
 
 public class BackgroundWorker extends SwingWorker<Void, Integer> {
-// The first type is the doInBackground() method's return type 
-// The second is the process() method's return type  
+// The first type is the doInBackground() method's return type (or Void for null)
+// The second is the process() method's return type (or Void for null)
 
     private final Koshin koshin;
 
