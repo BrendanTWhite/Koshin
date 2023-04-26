@@ -3,14 +3,22 @@ package koshin;
 import java.util.List;
 import javax.swing.*;
 
-public class BackgroundWorker extends SwingWorker<Void, Integer> {
+public class BackgroundWorker extends SwingWorker<Void, Status> {
 // The first type is the doInBackground() method's return type (or Void for null)
 // The second is the process() method's return type (or Void for null)
 
     private final Koshin koshin;
 
     BackgroundWorker(Koshin koshin) {
+        // Constructor - runs in main thread
         this.koshin = koshin;
+
+        koshin.getStartButton().setEnabled(false);
+        koshin.getManifestFilePathTextNameSelectButton().setEnabled(false);
+        
+        koshin.getUpdateCustomFilesProgressBar().setValue(0);
+        koshin.getUpdateManifestFileProgressBar().setValue(0);
+
     }
 
     @Override
@@ -20,23 +28,34 @@ public class BackgroundWorker extends SwingWorker<Void, Integer> {
         20% downloaded, etc.
          */
 
-        koshin.getStartButton().setEnabled(false);
-        koshin.getManifestFilePathTextNameSelectButton().setEnabled(false);
-
         try {
-            
-            for (int i = 1; i <= 100; i++) {
+
+            for (int i = 0; i <= 100; i += 10) {
                 {
-                    Thread.sleep(10);
+                    Thread.sleep(100);
+                }
+                
+                System.out.println("Publishing Rebuild " + i);
+                Status status = new Status();
+                status.setStatusRebuilding(i);
+                publish(status);
+            }
+
+            for (int i = 0; i <= 100; i += 10) {
+                {
+                    Thread.sleep(50);
                 }
 
-                //calls process with data added to List, 10% more each iteration.
-                publish(i);
+                System.out.println("Publishing Manifest " + i);
+                Status status = new Status();                
+                status.setStausManifesting(i);
+                publish(status);
+
             }
-            
+
         } catch (Exception e) {
             JOptionPane.showMessageDialog(
-                    null, 
+                    null,
                     e.getStackTrace(),
                     "Error: " + e.getLocalizedMessage(),
                     JOptionPane.ERROR_MESSAGE
@@ -44,23 +63,45 @@ public class BackgroundWorker extends SwingWorker<Void, Integer> {
             return null;
         }
 
+        Status status = new Status();                
+        status.setStatusFinished();
+        publish(status);
+
         return null;
     }
 
 
-    /*
-    This is were the worker reports data to update the list.
+    /**
+     *
+     * @param chunks
      */
+
     @Override
-    protected void process(List<Integer> chunks) { // main thread
-        //Grab data from the int last added to the list.
-        koshin.getUpdateManifestFileProgressBar().setValue(chunks.get(chunks.size() - 1));
+    protected void process(List<Status> chunks) { // main thread
+
+        while (!chunks.isEmpty()) {
+            Status status = chunks.remove(0); // pop oldest item
+
+            switch (status.getState()) {
+                case REBUILDING -> {
+                    System.out.println("Processing Rebuild " + status.getProgress());
+                    koshin.getUpdateCustomFilesProgressBar().setValue(status.getProgress());
+                }
+                case MANIFESTING -> {
+                    System.out.println("Processing Manifest " + status.getProgress());
+                    koshin.getUpdateManifestFileProgressBar().setValue(status.getProgress());
+                }
+                case IDLE ->
+                    System.out.println("Done ");
+                default ->
+                    throw new Error("Unexpected state " + status.getState());
+            }
+        }
     }
 
     //Called when doInBackground() completes.
     @Override
     public void done() { // main thread
-        //We are done, so set value to 0 in preparation for another download.
         koshin.getStartButton().setEnabled(true);
         koshin.getManifestFilePathTextNameSelectButton().setEnabled(true);
     }
