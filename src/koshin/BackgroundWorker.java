@@ -23,19 +23,70 @@ public class BackgroundWorker extends SwingWorker<Void, Status> {
 
     @Override
     protected Void doInBackground() throws Exception { // background thread
-        /*
-        Simulate the download of a file.  We wait 1 second, then report
-        20% downloaded, etc.
-         */
 
         try {
+            
+            
+            
+            // Get three lists of files
+            
+            // - Custom, Default, Dist
+            // should take around 0.1 seconds in total
+            
+            
+            
+            // For each file in each of the three lists
+            
+            // - get the filesize in bytes, and last mod timestamp
+            // can have working progress bar, because
+            // we know up front how many files are in each list
+            
+            
+            
+            // Foreach file in Default
+            
+            // - If equivalent file exists in Custom
+            // - - then Source = Custom file
+            // - - else Source = Default file
+            
+            // - If equivalet in Dist does not exist
+            // - - then copy Source to Dist (or add to copy list)
+            
+            // - else if Dist exists but fingerprint <>  source fingerprint
+            // - - then copy Source to Dist (or add to copy list)
+            
+            // - else if Dist exists and fingerprint ==  source fingerprint
+            // - - then this file hasn't changed, so do nothing
+
+            
+            
+            // Foreach file in Custom
+            
+            // - If equivalent file does not exist in Dist
+            // - - then copy Custom file to Dist (or add to copy list)
+            
+            
+            
+            // Foreach file in Dist
+            // - If it doesn't exist in Default OR Custom
+            // - - then add to Delete list
+            
+            
+            
+            // For each file in the copy / delete list
+            
+            // - Copy or delete the file
+            // can have working progress bar, because
+            // we know up front how many files in list
+            
+            
 
             for (int i = 0; i <= 100; i += 10) {
                 {
                     Thread.sleep(100);
                 }
                 
-                System.out.println("Publishing Rebuild " + i);
+//                System.out.println("Publishing Rebuild " + i);
                 Status status = new Status();
                 status.setStatusRebuilding(i);
                 publish(status);
@@ -46,7 +97,7 @@ public class BackgroundWorker extends SwingWorker<Void, Status> {
                     Thread.sleep(50);
                 }
 
-                System.out.println("Publishing Manifest " + i);
+//                System.out.println("Publishing Manifest " + i);
                 Status status = new Status();                
                 status.setStausManifesting(i);
                 publish(status);
@@ -84,11 +135,11 @@ public class BackgroundWorker extends SwingWorker<Void, Status> {
 
             switch (status.getState()) {
                 case REBUILDING -> {
-                    System.out.println("Processing Rebuild " + status.getProgress());
+//                    System.out.println("Processing Rebuild " + status.getProgress());
                     koshin.getUpdateCustomFilesProgressBar().setValue(status.getProgress());
                 }
                 case MANIFESTING -> {
-                    System.out.println("Processing Manifest " + status.getProgress());
+//                    System.out.println("Processing Manifest " + status.getProgress());
                     koshin.getUpdateManifestFileProgressBar().setValue(status.getProgress());
                 }
                 case IDLE ->
