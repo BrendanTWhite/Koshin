@@ -28,7 +28,7 @@ public class BackgroundWorker extends SwingWorker<Void, Status> {
             
             
             
-            // Get three lists of files
+            // Get a list of files for each Node
             
             // - Custom, Default, Dist
             // should take around 0.1 seconds in total
@@ -38,44 +38,55 @@ public class BackgroundWorker extends SwingWorker<Void, Status> {
             // For each file in each of the three lists
             
             // - get the filesize in bytes, and last mod timestamp
+            
             // can have working progress bar, because
             // we know up front how many files are in each list
             
             
             
-            // Foreach file in Default
-            
-            // - If equivalent file exists in Custom
-            // - - then Source = Custom file
-            // - - else Source = Default file
-            
-            // - If equivalet in Dist does not exist
-            // - - then copy Source to Dist (or add to copy list)
-            
-            // - else if Dist exists but fingerprint <>  source fingerprint
-            // - - then copy Source to Dist (or add to copy list)
-            
-            // - else if Dist exists and fingerprint ==  source fingerprint
-            // - - then this file hasn't changed, so do nothing
-
-            
-            
             // Foreach file in Custom
             
-            // - If equivalent file does not exist in Dist
-            // - - then copy Custom file to Dist (or add to copy list)
+            // - Check equivalent file in Dist
+            // - - if not there in Dist, then add to Copy list
+            // - - if there but different, then add to Copy list
+            
+            // all in RAM so instantaneous
+
+
+            
+            // Foreach file in Default
+            
+            // - Check equivalent file in Custom
+            // - - if there and different, then skip this file
+            // - - if there and identical, then LOG A WARNING and skip this file
+            // - - if not there, then continue
+            
+            // - Check equivalent in Dist
+            // - - if not there, then add to copy list
+            // - - if there and different, then add to Copy list
+                        
+            // all in RAM so instantaneous
             
             
-            
+                        
             // Foreach file in Dist
-            // - If it doesn't exist in Default OR Custom
-            // - - then add to Delete list
+            
+            // - Check equivalent file in Default
+            // - - if it exists, identical or no, skip this file
+            // - - if not, then continue
+            
+            // - Check equivalent in Custom
+            // - - if it exists, identical or no, skip this file
+            // - - if not, then add to Delete list
+
+            // all in RAM so instantaneous
             
             
             
             // For each file in the copy / delete list
             
             // - Copy or delete the file
+
             // can have working progress bar, because
             // we know up front how many files in list
             
@@ -83,7 +94,7 @@ public class BackgroundWorker extends SwingWorker<Void, Status> {
 
             for (int i = 0; i <= 100; i += 10) {
                 {
-                    Thread.sleep(100);
+                    Thread.sleep(50);
                 }
                 
 //                System.out.println("Publishing Rebuild " + i);
@@ -94,7 +105,7 @@ public class BackgroundWorker extends SwingWorker<Void, Status> {
 
             for (int i = 0; i <= 100; i += 10) {
                 {
-                    Thread.sleep(50);
+                    Thread.sleep(30);
                 }
 
 //                System.out.println("Publishing Manifest " + i);
