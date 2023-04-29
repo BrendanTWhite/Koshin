@@ -50,3 +50,11 @@ thisFileFullPath is `//server/software/custom/SM/PersDtls10.aspx`
 `thisPath.toString()`
 
 Like it says on the tin
+
+
+
+## isAbsolute()
+
+`if thisPath.isAbsolute() then { }`
+
+Like it says on the tin
