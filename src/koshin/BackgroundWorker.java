@@ -1,8 +1,10 @@
 package koshin;
 
+import java.io.File;
 import java.util.List;
 import javax.swing.*;
 import java.nio.file.*;
+import java.nio.file.attribute.FileTime;
 import java.util.stream.*;
 
 public class BackgroundWorker extends SwingWorker<Void, Status> {
@@ -11,6 +13,10 @@ public class BackgroundWorker extends SwingWorker<Void, Status> {
 
     long startTime;
     long endTime;
+
+    private static long l = 0;
+    private static File f;
+    private static FileTime ft;
 
     private final Koshin koshin;
 
@@ -70,22 +76,25 @@ public class BackgroundWorker extends SwingWorker<Void, Status> {
             List<Path> distFiles = getAllDecendants(distDirPath);
             this.stopStopwatch("get lists of files");
 
-            customFiles.forEach((Path p) -> {
-                System.out.println("Cust "+ p.toString());
-            });
-
-            defaultFiles.forEach((Path p) -> {
-                System.out.println("Defl "+ p.toString());
-            });
-
-            distFiles.forEach((Path p) -> {
-                System.out.println("Dist "+ p.toString());
-            });
-
             // For each file in each of the three lists
             // - get the filesize in bytes, and last mod timestamp
             // can have working progress bar, because
             // we know up front how many files are in each list
+            this.startStopwatch();
+            for (int i = 0; i < customFiles.size(); i++) {
+                l = Files.size(customFiles.get(i));
+                ft = Files.getLastModifiedTime(customFiles.get(i),LinkOption.NOFOLLOW_LINKS);
+            }
+            for (int i = 0; i < defaultFiles.size(); i++) {
+                l = Files.size(defaultFiles.get(i));
+                ft = Files.getLastModifiedTime(defaultFiles.get(i),LinkOption.NOFOLLOW_LINKS);
+            }
+            for (int i = 0; i < distFiles.size(); i++) {
+                l = Files.size(distFiles.get(i));
+                ft = Files.getLastModifiedTime(distFiles.get(i),LinkOption.NOFOLLOW_LINKS);
+            }
+            this.stopStopwatch("get file sizes and last mod dates");
+
             // Foreach file in Custom
             // - Check equivalent file in Dist
             // - - if not there in Dist, then add to Copy list
