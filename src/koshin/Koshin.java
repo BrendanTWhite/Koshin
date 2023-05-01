@@ -21,7 +21,7 @@ public class Koshin extends javax.swing.JFrame {
         initComponents();
 
         Preferences prefs = Preferences.userNodeForPackage(Koshin.class);
-        manifestFilePathTextName.setText(prefs.get("manifest_file_path", "< click the Select button >"));
+        customDirectoryPathTextField.setText(prefs.get("custom_directory_path", "< click the Select button >"));
 
     }
 
@@ -34,9 +34,9 @@ public class Koshin extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        manifestFilePathTextNameLabel = new javax.swing.JLabel();
-        manifestFilePathTextName = new javax.swing.JTextField();
-        manifestFilePathTextNameSelectButton = new javax.swing.JButton();
+        customDirectoryPathLabel = new javax.swing.JLabel();
+        customDirectoryPathTextField = new javax.swing.JTextField();
+        customDirectoryPathSelectButton = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JSeparator();
         updateCustomFilesProgressBarLabel = new javax.swing.JLabel();
         updateCustomFilesProgressBar = new javax.swing.JProgressBar();
@@ -49,16 +49,16 @@ public class Koshin extends javax.swing.JFrame {
         setMaximumSize(new java.awt.Dimension(2048, 332));
         setMinimumSize(new java.awt.Dimension(340, 332));
 
-        manifestFilePathTextNameLabel.setLabelFor(manifestFilePathTextName);
-        manifestFilePathTextNameLabel.setText("Manifest File");
+        customDirectoryPathLabel.setLabelFor(customDirectoryPathTextField);
+        customDirectoryPathLabel.setText("Custom Directory");
 
-        manifestFilePathTextName.setEditable(false);
+        customDirectoryPathTextField.setEditable(false);
 
-        manifestFilePathTextNameSelectButton.setText("Select...");
-        manifestFilePathTextNameSelectButton.setToolTipText("");
-        manifestFilePathTextNameSelectButton.addActionListener(new java.awt.event.ActionListener() {
+        customDirectoryPathSelectButton.setText("Select...");
+        customDirectoryPathSelectButton.setToolTipText("");
+        customDirectoryPathSelectButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                manifestFilePathTextNameSelectButtonActionPerformed(evt);
+                customDirectoryPathSelectButtonActionPerformed(evt);
             }
         });
 
@@ -89,11 +89,11 @@ public class Koshin extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(updateManifestFileProgressBar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jSeparator1)
-                            .addComponent(manifestFilePathTextNameLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(customDirectoryPathLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(manifestFilePathTextName, javax.swing.GroupLayout.DEFAULT_SIZE, 548, Short.MAX_VALUE)
+                                .addComponent(customDirectoryPathTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 548, Short.MAX_VALUE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(manifestFilePathTextNameSelectButton, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(customDirectoryPathSelectButton, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(updateCustomFilesProgressBarLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(updateCustomFilesProgressBar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(updateManifestFileProgressBarLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
@@ -103,11 +103,11 @@ public class Koshin extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(manifestFilePathTextNameLabel)
+                .addComponent(customDirectoryPathLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(manifestFilePathTextName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(manifestFilePathTextNameSelectButton))
+                    .addComponent(customDirectoryPathTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(customDirectoryPathSelectButton))
                 .addGap(27, 27, 27)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
@@ -126,21 +126,28 @@ public class Koshin extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void manifestFilePathTextNameSelectButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_manifestFilePathTextNameSelectButtonActionPerformed
+    private void customDirectoryPathSelectButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_customDirectoryPathSelectButtonActionPerformed
         Preferences prefs = Preferences.userNodeForPackage(Koshin.class);
+        File currentCustomDirectory = new File(customDirectoryPathTextField.getText());
 
         JFileChooser fileChooser = new JFileChooser();
-        fileChooser.setCurrentDirectory(new File(System.getProperty("user.home")));
+        fileChooser.setDialogTitle("Select the Custom directory");
+        fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        if (currentCustomDirectory.exists() && currentCustomDirectory.isDirectory()) {
+            fileChooser.setSelectedFile(currentCustomDirectory);
+        } else {
+            fileChooser.setCurrentDirectory(new File(System.getProperty("user.home")));
+        }
 
         int result = fileChooser.showOpenDialog(this);
 
         if (result == JFileChooser.APPROVE_OPTION) {
-            File selectedFile = fileChooser.getSelectedFile();
-            prefs.put("manifest_file_path", selectedFile.getAbsolutePath());
-            manifestFilePathTextName.setText(selectedFile.getAbsolutePath());
+            currentCustomDirectory = fileChooser.getSelectedFile();
+            prefs.put("custom_directory_path", currentCustomDirectory.getAbsolutePath());
+            customDirectoryPathTextField.setText(currentCustomDirectory.getAbsolutePath());
         }
 
-    }//GEN-LAST:event_manifestFilePathTextNameSelectButtonActionPerformed
+    }//GEN-LAST:event_customDirectoryPathSelectButtonActionPerformed
 
     private void startButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startButtonActionPerformed
 
@@ -174,10 +181,10 @@ public class Koshin extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel customDirectoryPathLabel;
+    private javax.swing.JButton customDirectoryPathSelectButton;
+    private javax.swing.JTextField customDirectoryPathTextField;
     private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JTextField manifestFilePathTextName;
-    private javax.swing.JLabel manifestFilePathTextNameLabel;
-    private javax.swing.JButton manifestFilePathTextNameSelectButton;
     private javax.swing.JButton startButton;
     private javax.swing.JProgressBar updateCustomFilesProgressBar;
     private javax.swing.JLabel updateCustomFilesProgressBarLabel;
@@ -190,7 +197,7 @@ public class Koshin extends javax.swing.JFrame {
     }
 
     public JButton getManifestFilePathTextNameSelectButton() {
-        return manifestFilePathTextNameSelectButton;
+        return customDirectoryPathSelectButton;
     }
 
     public JProgressBar getUpdateCustomFilesProgressBar() {

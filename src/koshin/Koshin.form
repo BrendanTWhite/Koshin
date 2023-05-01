@@ -41,11 +41,11 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="updateManifestFileProgressBar" max="32767" attributes="0"/>
                           <Component id="jSeparator1" alignment="0" max="32767" attributes="0"/>
-                          <Component id="manifestFilePathTextNameLabel" max="32767" attributes="0"/>
+                          <Component id="customDirectoryPathLabel" max="32767" attributes="0"/>
                           <Group type="102" attributes="0">
-                              <Component id="manifestFilePathTextName" pref="548" max="32767" attributes="0"/>
+                              <Component id="customDirectoryPathTextField" pref="548" max="32767" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="manifestFilePathTextNameSelectButton" min="-2" pref="100" max="-2" attributes="0"/>
+                              <Component id="customDirectoryPathSelectButton" min="-2" pref="100" max="-2" attributes="0"/>
                           </Group>
                           <Component id="updateCustomFilesProgressBarLabel" alignment="0" max="32767" attributes="0"/>
                           <Component id="updateCustomFilesProgressBar" alignment="0" max="32767" attributes="0"/>
@@ -61,11 +61,11 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="manifestFilePathTextNameLabel" min="-2" max="-2" attributes="0"/>
+              <Component id="customDirectoryPathLabel" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="manifestFilePathTextName" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="manifestFilePathTextNameSelectButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="customDirectoryPathTextField" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="customDirectoryPathSelectButton" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
               <Component id="jSeparator1" min="-2" pref="10" max="-2" attributes="0"/>
@@ -85,26 +85,26 @@
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Component class="javax.swing.JLabel" name="manifestFilePathTextNameLabel">
+    <Component class="javax.swing.JLabel" name="customDirectoryPathLabel">
       <Properties>
         <Property name="labelFor" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
-          <ComponentRef name="manifestFilePathTextName"/>
+          <ComponentRef name="customDirectoryPathTextField"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="Manifest File"/>
+        <Property name="text" type="java.lang.String" value="Custom Directory"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="manifestFilePathTextName">
+    <Component class="javax.swing.JTextField" name="customDirectoryPathTextField">
       <Properties>
         <Property name="editable" type="boolean" value="false"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JButton" name="manifestFilePathTextNameSelectButton">
+    <Component class="javax.swing.JButton" name="customDirectoryPathSelectButton">
       <Properties>
         <Property name="text" type="java.lang.String" value="Select..."/>
         <Property name="toolTipText" type="java.lang.String" value=""/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="manifestFilePathTextNameSelectButtonActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="customDirectoryPathSelectButtonActionPerformed"/>
       </Events>
     </Component>
     <Component class="javax.swing.JSeparator" name="jSeparator1">
