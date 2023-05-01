@@ -58,3 +58,17 @@ Like it says on the tin
 `if thisPath.isAbsolute() then { }`
 
 Like it says on the tin
+
+
+
+## toFile()
+
+`newFile = thisPath.toFile()`
+
+Like it says on the tin
+
+
+
+## toFile()
+     
+Files.write(myPath, myString.getBytes());
