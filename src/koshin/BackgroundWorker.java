@@ -90,31 +90,8 @@ public class BackgroundWorker extends SwingWorker<Void, Status> {
             // can have working progress bar, because
             // we know up front how many files in list
             
+
             
-
-            for (int i = 0; i <= 100; i += 10) {
-                {
-                    Thread.sleep(50);
-                }
-                
-//                System.out.println("Publishing Rebuild " + i);
-                Status status = new Status();
-                status.setStatusRebuilding(i);
-                publish(status);
-            }
-
-            for (int i = 0; i <= 100; i += 10) {
-                {
-                    Thread.sleep(30);
-                }
-
-//                System.out.println("Publishing Manifest " + i);
-                Status status = new Status();                
-                status.setStausManifesting(i);
-                publish(status);
-
-            }
-
         } catch (Exception e) {
             JOptionPane.showMessageDialog(
                     null,
