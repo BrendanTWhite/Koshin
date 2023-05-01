@@ -154,7 +154,12 @@ public class Koshin extends javax.swing.JFrame {
         try {
             new BackgroundWorker(this).execute();
         } catch (Exception ex) {
-            ex.printStackTrace();
+            JOptionPane.showMessageDialog(
+                    null,
+                    ex.getStackTrace(),
+                    "Error: " + ex.getLocalizedMessage(),
+                    JOptionPane.ERROR_MESSAGE
+            );
         }
 
     }//GEN-LAST:event_startButtonActionPerformed
@@ -196,7 +201,7 @@ public class Koshin extends javax.swing.JFrame {
         return startButton;
     }
 
-    public JButton getManifestFilePathTextNameSelectButton() {
+    public JButton getCustomDirPathSelectButton() {
         return customDirectoryPathSelectButton;
     }
 
@@ -206,5 +211,9 @@ public class Koshin extends javax.swing.JFrame {
 
     public JProgressBar getUpdateManifestFileProgressBar() {
         return updateManifestFileProgressBar;
+    }
+    
+    public JTextField getCustomDirectoryPathTextField() {
+        return customDirectoryPathTextField;
     }
 }

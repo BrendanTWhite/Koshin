@@ -2,22 +2,57 @@ package koshin;
 
 import java.util.List;
 import javax.swing.*;
+import java.nio.file.*;
+import java.util.stream.*;
 
 public class BackgroundWorker extends SwingWorker<Void, Status> {
 // The first type is the doInBackground() method's return type (or Void for null)
 // The second is the process() method's return type (or Void for null)
 
+    long startTime;
+    long endTime;
+
     private final Koshin koshin;
 
-    BackgroundWorker(Koshin koshin) {
+    private final Path customDirPath;
+    private final Path defaultDirPath;
+    private final Path distDirPath;
+
+    BackgroundWorker(Koshin koshin) throws Exception {
         // Constructor - runs in main thread
         this.koshin = koshin;
 
         koshin.getStartButton().setEnabled(false);
-        koshin.getManifestFilePathTextNameSelectButton().setEnabled(false);
-        
+        koshin.getCustomDirPathSelectButton().setEnabled(false);
+
         koshin.getUpdateCustomFilesProgressBar().setValue(0);
         koshin.getUpdateManifestFileProgressBar().setValue(0);
+
+        this.customDirPath = Paths.get(koshin.getCustomDirectoryPathTextField().getText());
+        this.defaultDirPath = customDirPath.resolveSibling("default");
+        this.distDirPath = customDirPath.resolveSibling("distribution");
+        Files.createDirectories(distDirPath); // create it if needed
+
+        if (!customDirPath.toFile().exists()) {
+            throw new Exception("Custom directory not found");
+        }
+        if (!customDirPath.toFile().isDirectory()) {
+            throw new Exception("Custom is not a directory");
+        }
+
+        if (!defaultDirPath.toFile().exists()) {
+            throw new Exception("Default directory not found");
+        }
+        if (!defaultDirPath.toFile().isDirectory()) {
+            throw new Exception("Default is not a directory");
+        }
+
+        if (!distDirPath.toFile().exists()) {
+            throw new Exception("Distribution directory not found");
+        }
+        if (!distDirPath.toFile().isDirectory()) {
+            throw new Exception("Distribution is not a directory");
+        }
 
     }
 
@@ -25,96 +60,79 @@ public class BackgroundWorker extends SwingWorker<Void, Status> {
     protected Void doInBackground() throws Exception { // background thread
 
         try {
-            
-            
-            
+
             // Get a list of files for each Node
-            
             // - Custom, Default, Dist
             // should take around 0.1 seconds in total
-            
-            
-            
+            this.startStopwatch();
+            List<Path> customFiles = getAllDecendants(customDirPath);
+            List<Path> defaultFiles = getAllDecendants(defaultDirPath);
+            List<Path> distFiles = getAllDecendants(distDirPath);
+            this.stopStopwatch("get lists of files");
+
+            customFiles.forEach((Path p) -> {
+                System.out.println("Cust "+ p.toString());
+            });
+
+            defaultFiles.forEach((Path p) -> {
+                System.out.println("Defl "+ p.toString());
+            });
+
+            distFiles.forEach((Path p) -> {
+                System.out.println("Dist "+ p.toString());
+            });
+
             // For each file in each of the three lists
-            
             // - get the filesize in bytes, and last mod timestamp
-            
             // can have working progress bar, because
             // we know up front how many files are in each list
-            
-            
-            
             // Foreach file in Custom
-            
             // - Check equivalent file in Dist
             // - - if not there in Dist, then add to Copy list
             // - - if there but different, then add to Copy list
-            
             // all in RAM so instantaneous
-
-
-            
             // Foreach file in Default
-            
             // - Check equivalent file in Custom
             // - - if there and different, then skip this file
             // - - if there and identical, then LOG A WARNING and skip this file
             // - - if not there, then continue
-            
             // - Check equivalent in Dist
             // - - if not there, then add to copy list
             // - - if there and different, then add to Copy list
-                        
             // all in RAM so instantaneous
-            
-            
-                        
             // Foreach file in Dist
-            
             // - Check equivalent file in Default
             // - - if it exists, identical or no, skip this file
             // - - if not, then continue
-            
             // - Check equivalent in Custom
             // - - if it exists, identical or no, skip this file
             // - - if not, then add to Delete list
-
             // all in RAM so instantaneous
-            
-            
-            
             // For each file in the copy / delete list
-            
             // - Copy or delete the file
-
             // can have working progress bar, because
             // we know up front how many files in list
-            
-
-            
-        } catch (Exception e) {
+        } catch (Exception ex) {
             JOptionPane.showMessageDialog(
                     null,
-                    e.getStackTrace(),
-                    "Error: " + e.getLocalizedMessage(),
+                    ex.getStackTrace(),
+                    "Error: " + ex.getLocalizedMessage(),
                     JOptionPane.ERROR_MESSAGE
             );
             return null;
         }
 
-        Status status = new Status();                
+        Status status = new Status();
         status.setStatusFinished();
         publish(status);
 
         return null;
     }
 
-
     /**
      *
      * @param chunks
      */
-
     @Override
     protected void process(List<Status> chunks) { // main thread
 
@@ -142,7 +160,28 @@ public class BackgroundWorker extends SwingWorker<Void, Status> {
     @Override
     public void done() { // main thread
         koshin.getStartButton().setEnabled(true);
-        koshin.getManifestFilePathTextNameSelectButton().setEnabled(true);
+        koshin.getCustomDirPathSelectButton().setEnabled(true);
+    }
+
+    void startStopwatch() {
+        startTime = java.lang.System.currentTimeMillis();
+    }
+
+    void stopStopwatch(String s) {
+        endTime = java.lang.System.currentTimeMillis();
+        System.out.println(s + ": " + ((endTime - startTime) / 1000.0) + "secs");
+
+    }
+
+    List<Path> getAllDecendants(Path thePath) throws Exception {
+        List<Path> result;
+        try (
+                Stream<Path> pathStream = Files.find(thePath,
+                        Integer.MAX_VALUE,
+                        (p, basicFileAttributes) -> !Files.isDirectory(p))) {
+            result = pathStream.collect(Collectors.toList());
+        }
+        return result;
     }
 
 }; // end class BackgroundWorker
