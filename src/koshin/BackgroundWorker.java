@@ -1,7 +1,7 @@
 package koshin;
 
 import java.io.File;
-import java.util.List;
+import java.util.*;
 import javax.swing.*;
 import java.nio.file.*;
 import java.nio.file.attribute.FileTime;
@@ -11,6 +11,19 @@ public class BackgroundWorker extends SwingWorker<Void, Status> {
 // The first type is the doInBackground() method's return type (or Void for null)
 // The second is the process() method's return type (or Void for null)
 
+    // 4095 - default size of Dist and Def hash sets
+    // 1023 - default size of Custom hash sets
+    static final int CUST_HASHSET_INITIAL_SIZE = 1023;    
+    static final int DEF_HASHSET_INITIAL_SIZE  = 4095;
+    static final int DIST_HASHSET_INITIAL_SIZE = 4095;
+
+    HashSet<Path> custFileHashSet = new HashSet<>(CUST_HASHSET_INITIAL_SIZE);
+    HashSet<Path> defFileHashSet  = new HashSet<>(DEF_HASHSET_INITIAL_SIZE);
+    HashSet<Path> distFileHashSet = new HashSet<>(DIST_HASHSET_INITIAL_SIZE);    
+    
+    HashSet<Path> filesToCopy   = new HashSet<>();
+    HashSet<Path> filesToDelete = new HashSet<>();
+    
     long startTime;
     long endTime;
 
@@ -27,12 +40,6 @@ public class BackgroundWorker extends SwingWorker<Void, Status> {
     BackgroundWorker(Koshin koshin) throws Exception {
         // Constructor - runs in main thread
         this.koshin = koshin;
-
-        koshin.getStartButton().setEnabled(false);
-        koshin.getCustomDirPathSelectButton().setEnabled(false);
-
-        koshin.getUpdateCustomFilesProgressBar().setValue(0);
-        koshin.getUpdateManifestFileProgressBar().setValue(0);
 
         this.customDirPath = Paths.get(koshin.getCustomDirectoryPathTextField().getText());
         this.defaultDirPath = customDirPath.resolveSibling("default");
@@ -60,6 +67,12 @@ public class BackgroundWorker extends SwingWorker<Void, Status> {
             throw new Exception("Distribution is not a directory");
         }
 
+        koshin.getStartButton().setEnabled(false);
+        koshin.getCustomDirPathSelectButton().setEnabled(false);
+
+        koshin.getUpdateCustomFilesProgressBar().setValue(0);
+        koshin.getUpdateManifestFileProgressBar().setValue(0);
+
     }
 
     @Override
@@ -83,15 +96,15 @@ public class BackgroundWorker extends SwingWorker<Void, Status> {
             this.startStopwatch();
             for (int i = 0; i < customFiles.size(); i++) {
                 l = Files.size(customFiles.get(i));
-                ft = Files.getLastModifiedTime(customFiles.get(i),LinkOption.NOFOLLOW_LINKS);
+                ft = Files.getLastModifiedTime(customFiles.get(i), LinkOption.NOFOLLOW_LINKS);
             }
             for (int i = 0; i < defaultFiles.size(); i++) {
                 l = Files.size(defaultFiles.get(i));
-                ft = Files.getLastModifiedTime(defaultFiles.get(i),LinkOption.NOFOLLOW_LINKS);
+                ft = Files.getLastModifiedTime(defaultFiles.get(i), LinkOption.NOFOLLOW_LINKS);
             }
             for (int i = 0; i < distFiles.size(); i++) {
                 l = Files.size(distFiles.get(i));
-                ft = Files.getLastModifiedTime(distFiles.get(i),LinkOption.NOFOLLOW_LINKS);
+                ft = Files.getLastModifiedTime(distFiles.get(i), LinkOption.NOFOLLOW_LINKS);
             }
             this.stopStopwatch("get file sizes and last mod dates");
 
@@ -100,6 +113,7 @@ public class BackgroundWorker extends SwingWorker<Void, Status> {
             // - - if not there in Dist, then add to Copy list
             // - - if there but different, then add to Copy list
             // all in RAM so instantaneous
+            
             // Foreach file in Default
             // - Check equivalent file in Custom
             // - - if there and different, then skip this file
@@ -109,6 +123,7 @@ public class BackgroundWorker extends SwingWorker<Void, Status> {
             // - - if not there, then add to copy list
             // - - if there and different, then add to Copy list
             // all in RAM so instantaneous
+            
             // Foreach file in Dist
             // - Check equivalent file in Default
             // - - if it exists, identical or no, skip this file
@@ -117,10 +132,12 @@ public class BackgroundWorker extends SwingWorker<Void, Status> {
             // - - if it exists, identical or no, skip this file
             // - - if not, then add to Delete list
             // all in RAM so instantaneous
+            
             // For each file in the copy / delete list
             // - Copy or delete the file
             // can have working progress bar, because
             // we know up front how many files in list
+            
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(
                     null,
