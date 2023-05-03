@@ -20,7 +20,7 @@ public class BackgroundWorker extends SwingWorker<Void, Status> {
     HashSet<Path> custFileHashSet = new HashSet<>(CUST_HASHSET_INITIAL_SIZE);
     HashSet<Path> defFileHashSet  = new HashSet<>(DEF_HASHSET_INITIAL_SIZE);
     HashSet<Path> distFileHashSet = new HashSet<>(DIST_HASHSET_INITIAL_SIZE);    
-    
+// To check whether an item exists in a HashSet, use the contains() method    
     HashSet<Path> filesToCopy   = new HashSet<>();
     HashSet<Path> filesToDelete = new HashSet<>();
     
@@ -33,30 +33,30 @@ public class BackgroundWorker extends SwingWorker<Void, Status> {
 
     private final Koshin koshin;
 
-    private final Path customDirPath;
-    private final Path defaultDirPath;
+    private final Path custDirPath;
+    private final Path defDirPath;
     private final Path distDirPath;
 
     BackgroundWorker(Koshin koshin) throws Exception {
         // Constructor - runs in main thread
         this.koshin = koshin;
 
-        this.customDirPath = Paths.get(koshin.getCustomDirectoryPathTextField().getText());
-        this.defaultDirPath = customDirPath.resolveSibling("default");
-        this.distDirPath = customDirPath.resolveSibling("distribution");
+        this.custDirPath = Paths.get(koshin.getCustomDirectoryPathTextField().getText());
+        this.defDirPath = custDirPath.resolveSibling("default");
+        this.distDirPath = custDirPath.resolveSibling("distribution");
         Files.createDirectories(distDirPath); // create it if needed
 
-        if (!customDirPath.toFile().exists()) {
+        if (!custDirPath.toFile().exists()) {
             throw new Exception("Custom directory not found");
         }
-        if (!customDirPath.toFile().isDirectory()) {
+        if (!custDirPath.toFile().isDirectory()) {
             throw new Exception("Custom is not a directory");
         }
 
-        if (!defaultDirPath.toFile().exists()) {
+        if (!defDirPath.toFile().exists()) {
             throw new Exception("Default directory not found");
         }
-        if (!defaultDirPath.toFile().isDirectory()) {
+        if (!defDirPath.toFile().isDirectory()) {
             throw new Exception("Default is not a directory");
         }
 
@@ -80,50 +80,90 @@ public class BackgroundWorker extends SwingWorker<Void, Status> {
 
         try {
 
-            // Get a list of files for each Node
+            // Get the set of files for each Node
             // - Custom, Default, Dist
             // should take around 0.1 seconds in total
+            // but can take quite a while if the files are on a server
             this.startStopwatch();
-            List<Path> customFiles = getAllDecendants(customDirPath);
-            List<Path> defaultFiles = getAllDecendants(defaultDirPath);
-            List<Path> distFiles = getAllDecendants(distDirPath);
-            this.stopStopwatch("get lists of files");
+            custFileHashSet = getAllDecendants(custDirPath);
+            defFileHashSet  = getAllDecendants(defDirPath);
+            distFileHashSet = getAllDecendants(distDirPath);
+            this.stopStopwatch("get sets of files");
 
             // For each file in each of the three lists
             // - get the filesize in bytes, and last mod timestamp
             // can have working progress bar, because
             // we know up front how many files are in each list
-            this.startStopwatch();
-            for (int i = 0; i < customFiles.size(); i++) {
-                l = Files.size(customFiles.get(i));
-                ft = Files.getLastModifiedTime(customFiles.get(i), LinkOption.NOFOLLOW_LINKS);
-            }
-            for (int i = 0; i < defaultFiles.size(); i++) {
-                l = Files.size(defaultFiles.get(i));
-                ft = Files.getLastModifiedTime(defaultFiles.get(i), LinkOption.NOFOLLOW_LINKS);
-            }
-            for (int i = 0; i < distFiles.size(); i++) {
-                l = Files.size(distFiles.get(i));
-                ft = Files.getLastModifiedTime(distFiles.get(i), LinkOption.NOFOLLOW_LINKS);
-            }
-            this.stopStopwatch("get file sizes and last mod dates");
-
+            // 
+            // Nah, don't bother. It is so close to instantaneous that
+            // we can just do it inline when needed.
+            
+            
             // Foreach file in Custom
             // - Check equivalent file in Dist
-            // - - if not there in Dist, then add to Copy list
-            // - - if there but different, then add to Copy list
+            // - - if not there AND IDENTICAL in Dist, then add to Copy list
             // all in RAM so instantaneous
+            this.startStopwatch();            
+            for (Path fullCustFilePath : custFileHashSet) {
+                Path fileRelativePath = custDirPath.relativize(fullCustFilePath);
+                Path fullDistFilePath = distDirPath.resolve(fileRelativePath);
+                if (! sameFingerprint(fullCustFilePath, fullDistFilePath)) {
+                    filesToCopy.add(fullCustFilePath);
+                }                
+            }                        
+            this.stopStopwatch("add Custom files to Copy set");
+
+            // write out the results
+            System.out.println("Custom files checked: " + custFileHashSet.size());
+            System.out.println("Files to Copy from Custom: " + filesToCopy.size());
+//            for (Path p : filesToCopy) {
+//                System.out.println(p.toString());
+//            }                        
+            System.out.println(".. end Files to Copy from Custom");
+
+
+            
+            
             
             // Foreach file in Default
             // - Check equivalent file in Custom
-            // - - if there and different, then skip this file
-            // - - if there and identical, then LOG A WARNING and skip this file
+            // - - if there, then skip this file
             // - - if not there, then continue
             // - Check equivalent in Dist
-            // - - if not there, then add to copy list
-            // - - if there and different, then add to Copy list
+            // - - if not there AND IDENTICAL in Dist, then add to Copy list
             // all in RAM so instantaneous
+            this.startStopwatch();            
+            for (Path fullDefFilePath : defFileHashSet) {
+                Path fileRelativePath = defDirPath.relativize(fullDefFilePath);
+                Path fullCustFilePath = custDirPath.resolve(fileRelativePath);
+                Path fullDistFilePath = distDirPath.resolve(fileRelativePath);
+                
+                if (Files.exists(fullCustFilePath)) {
+                    // already handled as a Custom file, so just continue
+                    continue;
+                }
+                
+                if (! sameFingerprint(fullDefFilePath, fullDistFilePath)) {
+                    filesToCopy.add(fullDefFilePath);
+                                    if (fullDefFilePath.endsWith("StudentManagementSimpleAnon.master")) {
+                                    System.out.println("added StudentManagementSimpleAnon");
+                                    }
+                    
+                }                
+            }                        
+            this.stopStopwatch("add Default files to Copy set");
             
+            // write out the results
+            System.out.println("Default files checked: " + defFileHashSet.size());
+            System.out.println("Files to Copy (all): " + filesToCopy.size());
+            for (Path p : filesToCopy) {
+                if (p.endsWith("StudentManagementSimpleAnon.master")) {
+                System.out.println(p.toString() + " to copy");
+                }
+            }                        
+            System.out.println(".. end Files to Copy (all)");
+            
+
             // Foreach file in Dist
             // - Check equivalent file in Default
             // - - if it exists, identical or no, skip this file
@@ -132,9 +172,42 @@ public class BackgroundWorker extends SwingWorker<Void, Status> {
             // - - if it exists, identical or no, skip this file
             // - - if not, then add to Delete list
             // all in RAM so instantaneous
+            this.startStopwatch();            
+            for (Path fullDistFilePath : distFileHashSet) {
+                Path fileRelativePath = distDirPath.relativize(fullDistFilePath);
+                Path fullCustFilePath = custDirPath.resolve(fileRelativePath);
+                Path fullDefFilePath = defDirPath.resolve(fileRelativePath);
+                
+                if (Files.exists(fullCustFilePath)) {
+                    // It exists as a Custom file, so just continue
+                    continue;
+                }
+                
+                if (Files.exists(fullDefFilePath)) {
+                    // It exists as a Default file, so just continue
+                    continue;
+                }
+                
+                // Doesn't exist in Def or Cust, so add it to the delete list
+                filesToDelete.add(fullDistFilePath);
+
+            }                        
+            this.stopStopwatch("add Dist files to Delete set");                       
             
-            // For each file in the copy / delete list
-            // - Copy or delete the file
+            // write out the results
+            System.out.println("Files to Delete: " + filesToDelete.size());
+//            for (Path p : filesToDelete) {
+//                System.out.println(p.toString());
+//            }                        
+            System.out.println(".. end Files to Delete");
+
+            // For each file in the copy list
+            // - Copy the file
+            // can have working progress bar, because
+            // we know up front how many files in list
+            
+            // For each file in the delete list
+            // - Delete the file
             // can have working progress bar, because
             // we know up front how many files in list
             
@@ -199,7 +272,7 @@ public class BackgroundWorker extends SwingWorker<Void, Status> {
 
     }
 
-    List<Path> getAllDecendants(Path thePath) throws Exception {
+    HashSet<Path> getAllDecendants(Path thePath) throws Exception {
         List<Path> result;
         try (
                 Stream<Path> pathStream = Files.find(thePath,
@@ -207,8 +280,43 @@ public class BackgroundWorker extends SwingWorker<Void, Status> {
                         (p, basicFileAttributes) -> !Files.isDirectory(p))) {
             result = pathStream.collect(Collectors.toList());
         }
-        return result;
+        return new HashSet(result);
     }
 
+    boolean sameFingerprint(Path p1, Path p2) throws Exception {
+        
+        if (p1.endsWith("StudentManagementSimpleAnon.master")) {
+            System.out.println("p1 " + p1.toString());
+            System.out.println("size " + Files.size(p1));
+            System.out.println("LMD " + Files.getLastModifiedTime(p1, 
+                        LinkOption.NOFOLLOW_LINKS));
+            
+            System.out.println("p2 " + p2.toString());
+            System.out.println("size " + Files.size(p2));
+            System.out.println("LMD " + Files.getLastModifiedTime(p2, 
+                        LinkOption.NOFOLLOW_LINKS));
+            
+        }
+        
+        if (!Files.exists(p1)){
+            return false;
+        }
+
+        if (!Files.exists(p2)){
+            return false;
+        }
+
+        if (Files.size(p1) != Files.size(p2)) {
+            return false;
+        }
+        
+        if (Files.getLastModifiedTime(p1, LinkOption.NOFOLLOW_LINKS) 
+                != Files.getLastModifiedTime(p2, LinkOption.NOFOLLOW_LINKS)) {
+            return false;
+        }
+        
+        return true;
+    }
+    
 }; // end class BackgroundWorker
 
