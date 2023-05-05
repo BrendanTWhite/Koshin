@@ -1,0 +1,44 @@
+
+( copying the 33,868 files that are now in Dist ) 
+Copying files: 3,129 secs, or 52 mins
+Deleting files: 0.0secs
+Done
+
+
+
+get sets of files: 51.349secs
+
+add Custom files to Copy set: 6.014secs
+Custom files checked: 1407
+Files to Copy from Custom: 0
+
+add Default files to Copy set: 155secs or 2.5 mins
+Default files checked: 32,659
+Files to Copy (all): 0
+
+add Dist files to Delete set: 88.553secs
+Dist files checked: 33,868
+Files to Delete: 0
+
+Copying files: 0.0secs
+Deleting files: 0.0secs
+Done
+
+
+
+So ... generally should just check the Custom.
+
+Can check ~ 1,333 files per second.
+So Custom will take around a second.
+Checking all three takes around a minute.
+
+Adding files to a set is around 200 per second.
+So Custom is around 6 secs
+Default is around 2.5 mins
+
+Deleting is generally only a handful of files
+so is pretty quick.
+
+Copying files is around 10 per second
+Actually pretty quick if relatively few have changed
+Close to an hour if copying EVERYTHING
