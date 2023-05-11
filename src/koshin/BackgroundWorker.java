@@ -117,7 +117,7 @@ public class BackgroundWorker extends SwingWorker<Void, koshin.Status> {
             System.out.println("Custom files checked: " + custFileHashSet.size());
             System.out.println("Files to Copy from Custom: " + filesToCopy.size());
             for (Path p : filesToCopy) {
-                System.out.println(p.toString());
+//                System.out.println(p.toString());
             }
             System.out.println();
 
@@ -149,7 +149,7 @@ public class BackgroundWorker extends SwingWorker<Void, koshin.Status> {
             System.out.println("Default files checked: " + defFileHashSet.size());
             System.out.println("Files to Copy (all): " + filesToCopy.size());
             for (Path p : filesToCopy) {
-                System.out.println(p.toString());
+//                System.out.println(p.toString());
             }
             System.out.println();
 
@@ -187,7 +187,7 @@ public class BackgroundWorker extends SwingWorker<Void, koshin.Status> {
             System.out.println("Dist files checked: " + distFileHashSet.size());
             System.out.println("Files to Delete: " + filesToDelete.size());
             for (Path p : filesToDelete) {
-                System.out.println(p.toString());
+//                System.out.println(p.toString());
             }
             System.out.println();
 
