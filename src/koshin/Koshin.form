@@ -30,26 +30,65 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" alignment="1" attributes="0">
-              <Group type="103" groupAlignment="1" attributes="0">
-                  <Group type="102" attributes="0">
+          <Group type="102" attributes="0">
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" alignment="1" attributes="0">
                       <EmptySpace max="32767" attributes="0"/>
                       <Component id="startButton" min="-2" pref="100" max="-2" attributes="0"/>
                   </Group>
-                  <Group type="102" attributes="0">
+                  <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="updateManifestFileProgressBar" max="32767" attributes="0"/>
-                          <Component id="jSeparator1" alignment="0" max="32767" attributes="0"/>
                           <Component id="customDirectoryPathLabel" max="32767" attributes="0"/>
                           <Group type="102" attributes="0">
                               <Component id="customDirectoryPathTextField" pref="548" max="32767" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="customDirectoryPathSelectButton" min="-2" pref="100" max="-2" attributes="0"/>
                           </Group>
-                          <Component id="updateCustomFilesProgressBarLabel" alignment="0" max="32767" attributes="0"/>
-                          <Component id="updateCustomFilesProgressBar" alignment="0" max="32767" attributes="0"/>
-                          <Component id="updateManifestFileProgressBarLabel" alignment="0" max="32767" attributes="0"/>
+                      </Group>
+                  </Group>
+                  <Component id="customDirectorySeparator" alignment="0" max="32767" attributes="0"/>
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="custSeparator" max="32767" attributes="0"/>
+                  </Group>
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="defSeparator" max="32767" attributes="0"/>
+                  </Group>
+                  <Component id="distCheckBox" alignment="1" max="32767" attributes="0"/>
+                  <Component id="distSeparator" max="32767" attributes="0"/>
+                  <Component id="manifestCheckBox" alignment="0" max="32767" attributes="0"/>
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="manifestSeparator" max="32767" attributes="0"/>
+                  </Group>
+                  <Group type="102" attributes="0">
+                      <EmptySpace min="23" pref="23" max="-2" attributes="0"/>
+                      <Component id="manifestProgressBar" max="32767" attributes="0"/>
+                  </Group>
+                  <Group type="102" attributes="0">
+                      <EmptySpace min="23" pref="23" max="-2" attributes="0"/>
+                      <Component id="distProgressBar" max="32767" attributes="0"/>
+                  </Group>
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="102" attributes="0">
+                              <EmptySpace min="23" pref="23" max="-2" attributes="0"/>
+                              <Component id="defProgressBar" max="32767" attributes="0"/>
+                          </Group>
+                          <Component id="defCheckBox" max="32767" attributes="0"/>
+                      </Group>
+                  </Group>
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="102" attributes="0">
+                              <EmptySpace min="23" pref="23" max="-2" attributes="0"/>
+                              <Component id="custProgressBar" max="32767" attributes="0"/>
+                          </Group>
+                          <Component id="custCheckBox" max="32767" attributes="0"/>
                       </Group>
                   </Group>
               </Group>
@@ -67,19 +106,35 @@
                   <Component id="customDirectoryPathTextField" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="customDirectoryPathSelectButton" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
-              <Component id="jSeparator1" min="-2" pref="10" max="-2" attributes="0"/>
-              <EmptySpace type="separate" max="-2" attributes="0"/>
-              <Component id="updateCustomFilesProgressBarLabel" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="updateCustomFilesProgressBar" min="-2" pref="22" max="-2" attributes="0"/>
-              <EmptySpace type="separate" max="-2" attributes="0"/>
-              <Component id="updateManifestFileProgressBarLabel" min="-2" max="-2" attributes="0"/>
+              <Component id="customDirectorySeparator" min="-2" pref="10" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="custCheckBox" min="-2" max="-2" attributes="0"/>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
-              <Component id="updateManifestFileProgressBar" min="-2" pref="22" max="-2" attributes="0"/>
-              <EmptySpace pref="19" max="32767" attributes="0"/>
-              <Component id="startButton" min="-2" max="-2" attributes="0"/>
+              <Component id="custProgressBar" min="-2" pref="22" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
+              <Component id="custSeparator" min="-2" pref="10" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="defCheckBox" min="-2" max="-2" attributes="0"/>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+              <Component id="defProgressBar" min="-2" pref="22" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="defSeparator" min="-2" pref="10" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="distCheckBox" min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="distProgressBar" min="-2" pref="22" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="distSeparator" min="-2" pref="10" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="manifestCheckBox" min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="manifestProgressBar" min="-2" pref="22" max="-2" attributes="0"/>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+              <Component id="manifestSeparator" min="-2" pref="10" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="startButton" min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -107,27 +162,59 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="customDirectoryPathSelectButtonActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JSeparator" name="jSeparator1">
+    <Component class="javax.swing.JSeparator" name="customDirectorySeparator">
     </Component>
-    <Component class="javax.swing.JLabel" name="updateCustomFilesProgressBarLabel">
+    <Component class="javax.swing.JCheckBox" name="custCheckBox">
       <Properties>
-        <Property name="labelFor" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
-          <ComponentRef name="updateCustomFilesProgressBar"/>
+        <Property name="selected" type="boolean" value="true"/>
+        <Property name="text" type="java.lang.String" value="Refresh Custom Files"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="custCheckBoxActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JProgressBar" name="custProgressBar">
+      <Properties>
+        <Property name="mixingCutoutShape" type="java.awt.Shape" editor="org.netbeans.modules.form.ComponentChooserEditor">
+          <ComponentRef name="null"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="Update Custom Files"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JProgressBar" name="updateCustomFilesProgressBar">
+    <Component class="javax.swing.JSeparator" name="custSeparator">
     </Component>
-    <Component class="javax.swing.JLabel" name="updateManifestFileProgressBarLabel">
+    <Component class="javax.swing.JCheckBox" name="defCheckBox">
       <Properties>
-        <Property name="labelFor" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
-          <ComponentRef name="updateManifestFileProgressBar"/>
-        </Property>
-        <Property name="text" type="java.lang.String" value="Update Manifest File"/>
+        <Property name="text" type="java.lang.String" value="Copy Default Files"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="defCheckBoxActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JProgressBar" name="defProgressBar">
+    </Component>
+    <Component class="javax.swing.JSeparator" name="defSeparator">
+    </Component>
+    <Component class="javax.swing.JCheckBox" name="distCheckBox">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Trim Distribution Files"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JProgressBar" name="updateManifestFileProgressBar">
+    <Component class="javax.swing.JProgressBar" name="distProgressBar">
+    </Component>
+    <Component class="javax.swing.JSeparator" name="distSeparator">
+    </Component>
+    <Component class="javax.swing.JCheckBox" name="manifestCheckBox">
+      <Properties>
+        <Property name="selected" type="boolean" value="true"/>
+        <Property name="text" type="java.lang.String" value="Refresh Manifest File"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="manifestCheckBoxActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JProgressBar" name="manifestProgressBar">
+    </Component>
+    <Component class="javax.swing.JSeparator" name="manifestSeparator">
     </Component>
     <Component class="javax.swing.JButton" name="startButton">
       <Properties>
