@@ -174,11 +174,6 @@
       </Events>
     </Component>
     <Component class="javax.swing.JProgressBar" name="custProgressBar">
-      <Properties>
-        <Property name="mixingCutoutShape" type="java.awt.Shape" editor="org.netbeans.modules.form.ComponentChooserEditor">
-          <ComponentRef name="null"/>
-        </Property>
-      </Properties>
     </Component>
     <Component class="javax.swing.JSeparator" name="custSeparator">
     </Component>

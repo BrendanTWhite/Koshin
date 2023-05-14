@@ -78,8 +78,6 @@ public class Koshin extends javax.swing.JFrame {
             }
         });
 
-        custProgressBar.setMixingCutoutShape(null);
-
         defCheckBox.setText("Copy Default Files");
         defCheckBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
