@@ -54,8 +54,8 @@ public class Koshin extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Koshin");
-        setMaximumSize(new java.awt.Dimension(2048, 332));
-        setMinimumSize(new java.awt.Dimension(340, 332));
+        setMaximumSize(new java.awt.Dimension(1024, 800));
+        setMinimumSize(new java.awt.Dimension(320, 455));
 
         customDirectoryPathLabel.setLabelFor(customDirectoryPathTextField);
         customDirectoryPathLabel.setText("Custom Directory");
@@ -189,9 +189,9 @@ public class Koshin extends javax.swing.JFrame {
                 .addComponent(manifestProgressBar, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(manifestSeparator, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(startButton)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         pack();
