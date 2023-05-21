@@ -288,23 +288,40 @@ public class Koshin extends javax.swing.JFrame {
     private javax.swing.JButton startButton;
     // End of variables declaration//GEN-END:variables
 
+    public JTextField getCustomDirectoryPathTextField() {
+        return customDirectoryPathTextField;
+    }
+    public JButton getCustomDirectoryPathSelectButton() {
+        return customDirectoryPathSelectButton;
+    }
     public JButton getStartButton() {
         return startButton;
-    }
-
-    public JButton getCustomDirPathSelectButton() {
-        return customDirectoryPathSelectButton;
     }
 
     public JProgressBar getUpdateCustomFilesProgressBar() {
         return custProgressBar;
     }
-
+    public JProgressBar getDefProgressBar() {
+        return defProgressBar;
+    }
+    public JProgressBar getDistProgressBar() {
+        return distProgressBar;
+    }
     public JProgressBar getUpdateManifestFileProgressBar() {
         return manifestProgressBar;
+    }    
+            
+    public JCheckBox getCustCheckBox() {
+        return custCheckBox;
+    }
+    public JCheckBox getDefCheckBox() {
+        return defCheckBox;
+    }
+    public JCheckBox getDistCheckBox() {
+        return distCheckBox;
+    }
+    public JCheckBox getManifestCheckBox() {
+        return manifestCheckBox;
     }
     
-    public JTextField getCustomDirectoryPathTextField() {
-        return customDirectoryPathTextField;
-    }
 }

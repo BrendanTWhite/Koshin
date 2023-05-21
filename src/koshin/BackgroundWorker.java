@@ -69,7 +69,7 @@ public class BackgroundWorker extends SwingWorker<Void, koshin.Status> {
         }
 
         koshin.getStartButton().setEnabled(false);
-        koshin.getCustomDirPathSelectButton().setEnabled(false);
+        koshin.getCustomDirectoryPathSelectButton().setEnabled(false);
 
         koshin.getUpdateCustomFilesProgressBar().setValue(0);
         koshin.getUpdateManifestFileProgressBar().setValue(0);
@@ -283,7 +283,7 @@ public class BackgroundWorker extends SwingWorker<Void, koshin.Status> {
     @Override
     public void done() { // main thread
         koshin.getStartButton().setEnabled(true);
-        koshin.getCustomDirPathSelectButton().setEnabled(true);
+        koshin.getCustomDirectoryPathSelectButton().setEnabled(true);
     }
 
     void startStopwatch() {
