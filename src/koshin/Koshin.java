@@ -55,7 +55,7 @@ public class Koshin extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Koshin");
         setMaximumSize(new java.awt.Dimension(1024, 800));
-        setMinimumSize(new java.awt.Dimension(320, 455));
+        setMinimumSize(new java.awt.Dimension(320, 460));
 
         customDirectoryPathLabel.setLabelFor(customDirectoryPathTextField);
         customDirectoryPathLabel.setText("Custom Directory");
