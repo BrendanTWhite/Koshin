@@ -224,10 +224,13 @@ public class Koshin extends javax.swing.JFrame {
 
         try {
             new BackgroundWorker(this).execute();
-        } catch (Exception ex) {
+        } catch (Exception ex) {         
             JOptionPane.showMessageDialog(
                     null,
-                    ex.getStackTrace(),
+                    (System.getProperty("log_full_details") != null &&
+                     System.getProperty("log_full_details").equals("Y"))
+                            ? ex.getStackTrace()
+                            : ex.getLocalizedMessage(),
                     "Error: " + ex.getLocalizedMessage(),
                     JOptionPane.ERROR_MESSAGE
             );

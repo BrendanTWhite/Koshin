@@ -47,6 +47,9 @@ public class BackgroundWorker extends SwingWorker<Void, koshin.Status> {
         this.distDirPath = custDirPath.resolveSibling("distribution");
         Files.createDirectories(distDirPath); // create it if needed
 
+        if (!custDirPath.toFile().getName().equalsIgnoreCase("custom")) {
+            throw new Exception("Directory is not 'custom'");
+        }
         if (!custDirPath.toFile().exists()) {
             throw new Exception("Custom directory not found");
         }
@@ -347,8 +350,11 @@ public class BackgroundWorker extends SwingWorker<Void, koshin.Status> {
         return true;
     }
 
-    void goSlow(int milliseconds) {        
-        if ( System.getProperty("go_slow").equals("Y")) {              
+    void goSlow(int milliseconds) {     
+        if ( 
+                System.getProperty("go_slow") != null &&
+                System.getProperty("go_slow").equals("Y")
+                ) {   
             try {
                 System.out.print("Waiting " + milliseconds + " ms ... ");
                 Thread.sleep(milliseconds);
