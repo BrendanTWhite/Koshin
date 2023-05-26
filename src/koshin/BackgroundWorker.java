@@ -81,14 +81,12 @@ public class BackgroundWorker extends SwingWorker<Void, koshin.Status> {
 
         try {
 
-            // Get the set of files for each Node
-            // - Custom, Default, Dist
+            // Get the set of files for Custom
             // should take around 0.1 seconds in total
             // but can take quite a while if the files are on a server
             this.startStopwatch();
             custFileHashSet = getAllDecendants(custDirPath);
-            defFileHashSet = getAllDecendants(defDirPath);
-            distFileHashSet = getAllDecendants(distDirPath);
+        goSlow(500);       
             this.stopStopwatch("get sets of files");
             System.out.println();
 
@@ -121,6 +119,17 @@ public class BackgroundWorker extends SwingWorker<Void, koshin.Status> {
             }
             System.out.println();
 
+            
+            // Get the set of files for Default
+            // should take around 0.1 seconds in total
+            // but can take quite a while if the files are on a server
+            this.startStopwatch();
+            defFileHashSet = getAllDecendants(defDirPath);
+        goSlow(500);       
+            this.stopStopwatch("get sets of files");
+            System.out.println();
+            
+            
             // Foreach file in Default
             // - Check equivalent file in Custom
             // - - if there, then skip this file
@@ -151,6 +160,15 @@ public class BackgroundWorker extends SwingWorker<Void, koshin.Status> {
             for (Path p : filesToCopy) {
 //                System.out.println(p.toString());
             }
+            System.out.println();
+
+            // Get the set of files for Dist
+            // should take around 0.1 seconds in total
+            // but can take quite a while if the files are on a server
+            this.startStopwatch();
+            distFileHashSet = getAllDecendants(distDirPath);
+        goSlow(500);       
+            this.stopStopwatch("get sets of files");
             System.out.println();
 
             // Foreach file in Dist
@@ -329,5 +347,18 @@ public class BackgroundWorker extends SwingWorker<Void, koshin.Status> {
         return true;
     }
 
+    void goSlow(int milliseconds) {        
+        if ( System.getProperty("go_slow").equals("Y")) {              
+            try {
+                System.out.print("Waiting " + milliseconds + " ms ... ");
+                Thread.sleep(milliseconds);
+                System.out.println("Done.");
+            }
+            catch(Exception e) {
+              //  don't really care
+            }
+        }
+    }
+    
 }; // end class BackgroundWorker
 
