@@ -78,6 +78,8 @@ public class Koshin extends javax.swing.JFrame {
             }
         });
 
+        custProgressBar.setName("custom files progress bar"); // NOI18N
+
         defCheckBox.setText("Copy Default Files");
         defCheckBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -301,7 +303,7 @@ public class Koshin extends javax.swing.JFrame {
         return startButton;
     }
 
-    public JProgressBar getUpdateCustomFilesProgressBar() {
+    public JProgressBar getCustomProgressBar() {
         return custProgressBar;
     }
     public JProgressBar getDefProgressBar() {
@@ -310,7 +312,7 @@ public class Koshin extends javax.swing.JFrame {
     public JProgressBar getDistProgressBar() {
         return distProgressBar;
     }
-    public JProgressBar getUpdateManifestFileProgressBar() {
+    public JProgressBar getManifestProgressBar() {
         return manifestProgressBar;
     }    
             

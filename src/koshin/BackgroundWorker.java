@@ -12,6 +12,7 @@ public class BackgroundWorker extends SwingWorker<Void, koshin.Status> {
 // The first type is the doInBackground() method's return type (or Void for null)
 // The second is the process() method's return type (or Void for null)
 
+// <editor-fold desc="variables">    
     // 4095 - default size of Dist and Def hash sets
     // 1023 - default size of Custom hash sets
     static final int CUST_HASHSET_INITIAL_SIZE = 1023;
@@ -37,11 +38,15 @@ public class BackgroundWorker extends SwingWorker<Void, koshin.Status> {
     private final Path custDirPath;
     private final Path defDirPath;
     private final Path distDirPath;
+// </editor-fold>    
 
+    
     BackgroundWorker(Koshin koshin) throws Exception {
         // Constructor - runs in main thread
         this.koshin = koshin;
 
+// <editor-fold desc="set-and-check-three-nodes">    
+        
         this.custDirPath = Paths.get(koshin.getCustomDirectoryPathTextField().getText());
         this.defDirPath = custDirPath.resolveSibling("default");
         this.distDirPath = custDirPath.resolveSibling("distribution");
@@ -70,69 +75,109 @@ public class BackgroundWorker extends SwingWorker<Void, koshin.Status> {
         if (!distDirPath.toFile().isDirectory()) {
             throw new Exception("Distribution is not a directory");
         }
+// </editor-fold>    
 
+// <editor-fold desc="set-ui-elements">    
+
+        // Set UI elements ready for starting
         koshin.getStartButton().setEnabled(false);
         koshin.getCustomDirectoryPathSelectButton().setEnabled(false);
 
-        koshin.getUpdateCustomFilesProgressBar().setValue(0);
-        koshin.getUpdateManifestFileProgressBar().setValue(0);
+        koshin.getCustomProgressBar().setMinimum(0);
+        koshin.getDefProgressBar().setMinimum(0);
+        koshin.getDistProgressBar().setMinimum(0);
+        koshin.getManifestProgressBar().setMinimum(0);
+
+        koshin.getCustomProgressBar().setMaximum(100);
+        koshin.getDefProgressBar().setMaximum(100);
+        koshin.getDistProgressBar().setMaximum(100);
+        koshin.getManifestProgressBar().setMaximum(100);                
+              
+        koshin.getCustomProgressBar().setValue(0);
+        koshin.getDefProgressBar().setValue(0);
+        koshin.getDistProgressBar().setValue(0);
+        koshin.getManifestProgressBar().setValue(0);
+// </editor-fold>    
 
     }
 
     @Override
     protected Void doInBackground() throws Exception { // background thread
-
+        int filesDone;
+        
         try {
 
-            // Get the set of files for Custom
-            // should take around 0.1 seconds in total
-            // but can take quite a while if the files are on a server
-            this.startStopwatch();
-            custFileHashSet = getAllDecendants(custDirPath);
-        goSlow(500);       
-            this.stopStopwatch("get sets of files");
-            System.out.println();
+            if (koshin.getCustCheckBox().isSelected()) {
+// <editor-fold desc="run-custom-files-check">                
 
-            // For each file in each of the three lists
-            // - get the filesize in bytes, and last mod timestamp
-            // can have working progress bar, because
-            // we know up front how many files are in each list
-            // 
-            // Nah, don't bother. It is so close to instantaneous that
-            // we can just do it inline when needed.
-            // Foreach file in Custom
-            // - Check equivalent file in Dist
-            // - - if not there AND IDENTICAL in Dist, then add to Copy list
-            // all in RAM so instantaneous
-            this.startStopwatch();
-            for (Path fullCustFilePath : custFileHashSet) {
-                Path fileRelativePath = custDirPath.relativize(fullCustFilePath);
-                Path fullDistFilePath = distDirPath.resolve(fileRelativePath);
-                if (!sameFingerprint(fullCustFilePath, fullDistFilePath)) {
-                    filesToCopy.add(fullCustFilePath);
+                // Get the set of files for Custom
+                // could take a while if the files are on a server
+                this.startStopwatch();
+                
+                
+                koshin.getCustomProgressBar().setIndeterminate(true);
+                koshin.getCustomProgressBar().setValue(100);
+                publish(new Status(
+                        Status.Section.CUSTOM, 
+                        Status.Action.SET_INDETERMINATE
+                ));
+                
+                System.out.println("Starting to get path contents...");
+                custFileHashSet = getAllDecendants(custDirPath);                                
+                goSlow(1500);
+                System.out.println("...got path contents.");
+
+                publish(new Status(
+                        Status.Section.CUSTOM, 
+                        Status.Action.SET_MAX,
+                        custFileHashSet.size()
+                ));
+
+                this.stopStopwatch("get sets of files");
+                System.out.println();
+
+                // Foreach file in Custom
+                // - Check equivalent file in Dist
+                // - - if not there AND IDENTICAL in Dist, then add to Copy list
+                this.startStopwatch();
+                filesDone = 0;
+
+                for (Path fullCustFilePath : custFileHashSet) {
+                    Path fileRelativePath = custDirPath.relativize(fullCustFilePath);
+                    Path fullDistFilePath = distDirPath.resolve(fileRelativePath);
+                    if (!sameFingerprint(fullCustFilePath, fullDistFilePath)) {
+                        filesToCopy.add(fullCustFilePath);
+                    }
+                    filesDone++;
+                    goSlow(5);
+                    publish(new Status(
+                            Status.Section.CUSTOM, 
+                            Status.Action.SET_PROGRESS,
+                            filesDone
+                    ));
                 }
-            }
-            this.stopStopwatch("add Custom files to Copy set");
+                this.stopStopwatch("add Custom files to Copy set");
+                
 
             // write out the results
             System.out.println("Custom files checked: " + custFileHashSet.size());
             System.out.println("Files to Copy from Custom: " + filesToCopy.size());
-            for (Path p : filesToCopy) {
-//                System.out.println(p.toString());
-            }
-            System.out.println();
 
-            
+// </editor-fold>                
+            }
+
+            if (koshin.getDefCheckBox().isSelected()) {            
+// <editor-fold desc="run-default-files-check">    
+
             // Get the set of files for Default
             // should take around 0.1 seconds in total
             // but can take quite a while if the files are on a server
             this.startStopwatch();
             defFileHashSet = getAllDecendants(defDirPath);
-        goSlow(500);       
+            goSlow(500);
             this.stopStopwatch("get sets of files");
             System.out.println();
-            
-            
+
             // Foreach file in Default
             // - Check equivalent file in Custom
             // - - if there, then skip this file
@@ -165,12 +210,18 @@ public class BackgroundWorker extends SwingWorker<Void, koshin.Status> {
             }
             System.out.println();
 
+// </editor-fold>    
+            }
+
+            if (koshin.getDistCheckBox().isSelected()) {                        
+// <editor-fold desc="run-dist-files-check">    
+            
             // Get the set of files for Dist
             // should take around 0.1 seconds in total
             // but can take quite a while if the files are on a server
             this.startStopwatch();
             distFileHashSet = getAllDecendants(distDirPath);
-        goSlow(500);       
+            goSlow(500);
             this.stopStopwatch("get sets of files");
             System.out.println();
 
@@ -241,6 +292,7 @@ public class BackgroundWorker extends SwingWorker<Void, koshin.Status> {
             }
             this.stopStopwatch("Copying files");
 
+            
             // For each file in the delete list
             // - Delete the file
             // can have working progress bar, because
@@ -250,6 +302,8 @@ public class BackgroundWorker extends SwingWorker<Void, koshin.Status> {
                 Files.delete(fileToDelete);
             }
             this.stopStopwatch("Deleting files");
+// </editor-fold>    
+            }
 
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(
@@ -262,47 +316,47 @@ public class BackgroundWorker extends SwingWorker<Void, koshin.Status> {
             return null;
         }
 
-        Status status = new Status();
-        status.setStatusFinished();
-        publish(status);
-        
         return null;
     }
 
-    /**
-     *
-     * @param chunks
-     */
-    @Override
-    protected void process(List<Status> chunks) { // main thread
-
+    @Override protected void process(List<Status> chunks) { // main thread
+        JProgressBar progressBar;    
+        Status status;
+        
         while (!chunks.isEmpty()) {
-            Status status = chunks.remove(0); // pop oldest item
-
-            switch (status.getState()) {
-                case REBUILDING -> {
-//                    System.out.println("Processing Rebuild " + status.getProgress());
-                    koshin.getUpdateCustomFilesProgressBar().setValue(status.getProgress());
+            status = chunks.remove(0); // pop oldest item
+            progressBar = getProgressBar(status.getSection());
+            
+            switch (status.getAction()) {
+                case SET_INDETERMINATE -> {
+                    progressBar.setIndeterminate(true);
                 }
-                case MANIFESTING -> {
-//                    System.out.println("Processing Manifest " + status.getProgress());
-                    koshin.getUpdateManifestFileProgressBar().setValue(status.getProgress());
+                case SET_MAX -> {
+                    progressBar.setIndeterminate(false);
+                    progressBar.setMaximum(status.getMax());
                 }
-                case IDLE -> {
-                    System.out.println("Done ");
-                    System.out.println();
-                    System.out.println();
-                    System.out.println();
+                case SET_PROGRESS -> {
+                    progressBar.setValue(status.getProgress());
                 }
                 default ->
-                    throw new Error("Unexpected state " + status.getState());
+                    throw new Error("Unexpected Action " + status.getAction());
             }
         }
     }
 
+    JProgressBar getProgressBar(koshin.Status.Section section){
+        
+        switch(section) {
+            case CUSTOM:   return koshin.getCustomProgressBar();
+            case DEFAULT:  return koshin.getDefProgressBar();
+            case DIST:     return koshin.getDistProgressBar();
+            case MANIFEST: return koshin.getManifestProgressBar();
+        }
+        return null;
+    }
+        
     //Called when doInBackground() completes.
-    @Override
-    public void done() { // main thread
+    @Override public void done() { // main thread
         koshin.getStartButton().setEnabled(true);
         koshin.getCustomDirectoryPathSelectButton().setEnabled(true);
     }
@@ -350,21 +404,18 @@ public class BackgroundWorker extends SwingWorker<Void, koshin.Status> {
         return true;
     }
 
-    void goSlow(int milliseconds) {     
-        if ( 
-                System.getProperty("go_slow") != null &&
-                System.getProperty("go_slow").equals("Y")
-                ) {   
+    void goSlow(int milliseconds) {
+        if (System.getProperty("go_slow") != null
+                && System.getProperty("go_slow").equals("Y")) {
             try {
                 System.out.print("Waiting " + milliseconds + " ms ... ");
                 Thread.sleep(milliseconds);
                 System.out.println("Done.");
-            }
-            catch(Exception e) {
-              //  don't really care
+            } catch (Exception e) {
+                //  don't really care
             }
         }
     }
-    
+
 }; // end class BackgroundWorker
 

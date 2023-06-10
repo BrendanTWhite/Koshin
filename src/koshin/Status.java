@@ -1,36 +1,69 @@
 package koshin;
 
 public class Status {
-
-    public enum State {
-        IDLE,
-        REBUILDING,
-        MANIFESTING
+    
+    public enum Section {
+        CUSTOM,
+        DEFAULT,
+        DIST,
+        MANIFEST
     }
     
-    private State state = State.IDLE;
-    private int progress = 0;
-
-    public State getState() {
-        return this.state;
+    public enum Action {
+        SET_INDETERMINATE,
+        SET_MAX,
+        SET_PROGRESS
     }
     
-    public int getProgress() {
+    private final Section section;
+    private final Action action;
+    private int max;
+    private int progress;
+    
+    public Status(
+            Section section, 
+            Action action
+    ) throws Exception {
+        this.section = section;
+        this.action = action;
+        if (action != Action.SET_INDETERMINATE) {
+            throw new Exception("Can't have this status without a value");
+        }
+    }
+    
+    public Status(
+            Section section, 
+            Action action, 
+            int n
+    ) throws Exception {
+        this.section = section;
+        this.action = action;
+        switch(action) {
+            case SET_MAX:
+                this.max = n;
+                break;
+            case SET_PROGRESS:
+                this.progress = n;
+                break;            
+            default:
+            throw new Exception("Can't have this status with a value");
+        }
+    }
+    
+    public Section getSection() {
+        return this.section;
+    }
+    
+    public Action getAction(){
+        return this.action;
+    }
+    
+    public int getMax(){
+        return this.max;
+    }
+    
+    public int getProgress(){
         return this.progress;
     }
-
-    public void setStatusRebuilding(int progress) {
-        this.state = State.REBUILDING;
-        this.progress = progress;
-    }
-
-    public void setStausManifesting(int progress) {
-        this.state = State.MANIFESTING;
-        this.progress = progress;
-    }
-
-    public void setStatusFinished() {
-        this.state = State.IDLE;
-    }
-   
+    
 }
