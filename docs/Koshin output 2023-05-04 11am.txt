@@ -28,9 +28,9 @@ Done
 
 So ... generally should just check the Custom.
 
-Can check ~ 1,333 files per second.
+Can scan ~ 1,333 files per second.
 So Custom will take around a second.
-Checking all three takes around a minute.
+Scanning all three takes around a minute.
 
 Adding files to a set is around 200 per second.
 So Custom is around 6 secs
