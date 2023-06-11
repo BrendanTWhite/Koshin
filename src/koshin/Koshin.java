@@ -23,6 +23,11 @@ public class Koshin extends javax.swing.JFrame {
         Preferences prefs = Preferences.userNodeForPackage(Koshin.class);
         customDirectoryPathTextField.setText(prefs.get("custom_directory_path", "< click the Select button >"));
 
+        // Set the progress bars to Visible if (and only if) their checkbox is ticked
+        this.getCustomProgressBar().setVisible(this.getCustCheckBox().isSelected());
+        this.getDefProgressBar().setVisible(this.getDefCheckBox().isSelected());
+        this.getDistProgressBar().setVisible(this.getDistCheckBox().isSelected());
+        this.getManifestProgressBar().setVisible(this.getManifestCheckBox().isSelected());
     }
 
     /**
@@ -38,17 +43,9 @@ public class Koshin extends javax.swing.JFrame {
         customDirectoryPathTextField = new javax.swing.JTextField();
         customDirectoryPathSelectButton = new javax.swing.JButton();
         customDirectorySeparator = new javax.swing.JSeparator();
-        custCheckBox = new javax.swing.JCheckBox();
-        custProgressBar = new javax.swing.JProgressBar();
         custSeparator = new javax.swing.JSeparator();
-        defCheckBox = new javax.swing.JCheckBox();
-        defProgressBar = new javax.swing.JProgressBar();
         defSeparator = new javax.swing.JSeparator();
-        distCheckBox = new javax.swing.JCheckBox();
-        distProgressBar = new javax.swing.JProgressBar();
         distSeparator = new javax.swing.JSeparator();
-        manifestCheckBox = new javax.swing.JCheckBox();
-        manifestProgressBar = new javax.swing.JProgressBar();
         manifestSeparator = new javax.swing.JSeparator();
         startButton = new javax.swing.JButton();
 
@@ -88,6 +85,11 @@ public class Koshin extends javax.swing.JFrame {
         });
 
         distCheckBox.setText("Trim Distribution Files");
+        distCheckBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                distCheckBoxActionPerformed(evt);
+            }
+        });
 
         manifestCheckBox.setSelected(true);
         manifestCheckBox.setText("Refresh Manifest File");
@@ -241,16 +243,24 @@ public class Koshin extends javax.swing.JFrame {
     }//GEN-LAST:event_startButtonActionPerformed
 
     private void custCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_custCheckBoxActionPerformed
-        // TODO add your handling code here:
+        var isTicked = this.getCustCheckBox().isSelected();
+        this.getCustomProgressBar().setVisible(isTicked);
     }//GEN-LAST:event_custCheckBoxActionPerformed
 
     private void manifestCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_manifestCheckBoxActionPerformed
-        // TODO add your handling code here:
+        var isTicked = this.getManifestCheckBox().isSelected();
+        this.getManifestProgressBar().setVisible(isTicked);
     }//GEN-LAST:event_manifestCheckBoxActionPerformed
 
     private void defCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_defCheckBoxActionPerformed
-        // TODO add your handling code here:
+        var isTicked = this.getDefCheckBox().isSelected();
+        this.getDefProgressBar().setVisible(isTicked);
     }//GEN-LAST:event_defCheckBoxActionPerformed
+
+    private void distCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_distCheckBoxActionPerformed
+        var isTicked = this.getDistCheckBox().isSelected();
+        this.getDistProgressBar().setVisible(isTicked);
+    }//GEN-LAST:event_distCheckBoxActionPerformed
 
     /**
      * @param args the command line arguments
@@ -274,58 +284,58 @@ public class Koshin extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JCheckBox custCheckBox;
-    private javax.swing.JProgressBar custProgressBar;
+    private final javax.swing.JCheckBox custCheckBox = new javax.swing.JCheckBox();
+    private final javax.swing.JProgressBar custProgressBar = new javax.swing.JProgressBar();
     private javax.swing.JSeparator custSeparator;
     private javax.swing.JLabel customDirectoryPathLabel;
     private javax.swing.JButton customDirectoryPathSelectButton;
     private javax.swing.JTextField customDirectoryPathTextField;
     private javax.swing.JSeparator customDirectorySeparator;
-    private javax.swing.JCheckBox defCheckBox;
-    private javax.swing.JProgressBar defProgressBar;
+    private final javax.swing.JCheckBox defCheckBox = new javax.swing.JCheckBox();
+    private final javax.swing.JProgressBar defProgressBar = new javax.swing.JProgressBar();
     private javax.swing.JSeparator defSeparator;
-    private javax.swing.JCheckBox distCheckBox;
-    private javax.swing.JProgressBar distProgressBar;
+    private final javax.swing.JCheckBox distCheckBox = new javax.swing.JCheckBox();
+    private final javax.swing.JProgressBar distProgressBar = new javax.swing.JProgressBar();
     private javax.swing.JSeparator distSeparator;
-    private javax.swing.JCheckBox manifestCheckBox;
-    private javax.swing.JProgressBar manifestProgressBar;
+    private final javax.swing.JCheckBox manifestCheckBox = new javax.swing.JCheckBox();
+    private final javax.swing.JProgressBar manifestProgressBar = new javax.swing.JProgressBar();
     private javax.swing.JSeparator manifestSeparator;
     private javax.swing.JButton startButton;
     // End of variables declaration//GEN-END:variables
 
-    public JTextField getCustomDirectoryPathTextField() {
+    public final JTextField getCustomDirectoryPathTextField() {
         return customDirectoryPathTextField;
     }
-    public JButton getCustomDirectoryPathSelectButton() {
+    public final JButton getCustomDirectoryPathSelectButton() {
         return customDirectoryPathSelectButton;
     }
-    public JButton getStartButton() {
+    public final JButton getStartButton() {
         return startButton;
     }
 
-    public JProgressBar getCustomProgressBar() {
+    public final JProgressBar getCustomProgressBar() {
         return custProgressBar;
     }
-    public JProgressBar getDefProgressBar() {
+    public final JProgressBar getDefProgressBar() {
         return defProgressBar;
     }
-    public JProgressBar getDistProgressBar() {
+    public final JProgressBar getDistProgressBar() {
         return distProgressBar;
     }
-    public JProgressBar getManifestProgressBar() {
+    public final JProgressBar getManifestProgressBar() {
         return manifestProgressBar;
     }    
             
-    public JCheckBox getCustCheckBox() {
+    public final JCheckBox getCustCheckBox() {
         return custCheckBox;
     }
-    public JCheckBox getDefCheckBox() {
+    public final JCheckBox getDefCheckBox() {
         return defCheckBox;
     }
-    public JCheckBox getDistCheckBox() {
+    public final JCheckBox getDistCheckBox() {
         return distCheckBox;
     }
-    public JCheckBox getManifestCheckBox() {
+    public final JCheckBox getManifestCheckBox() {
         return manifestCheckBox;
     }
     
