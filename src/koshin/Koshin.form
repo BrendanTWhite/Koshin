@@ -32,64 +32,51 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" attributes="0">
               <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="customDirectorySeparator" alignment="0" max="32767" attributes="0"/>
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="custCheckBox" max="32767" attributes="0"/>
+                  </Group>
                   <Group type="102" alignment="1" attributes="0">
                       <EmptySpace max="32767" attributes="0"/>
                       <Component id="startButton" min="-2" pref="100" max="-2" attributes="0"/>
                   </Group>
-                  <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="customDirectoryPathLabel" max="32767" attributes="0"/>
-                          <Group type="102" attributes="0">
-                              <Component id="customDirectoryPathTextField" pref="548" max="32767" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="customDirectoryPathSelectButton" min="-2" pref="100" max="-2" attributes="0"/>
-                          </Group>
-                      </Group>
-                  </Group>
-                  <Component id="customDirectorySeparator" alignment="0" max="32767" attributes="0"/>
-                  <Group type="102" alignment="0" attributes="0">
+                  <Group type="102" alignment="1" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="custSeparator" max="32767" attributes="0"/>
+                      <Component id="customDirectoryPathTextField" max="32767" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="customDirectoryPathSelectButton" min="-2" pref="100" max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="defSeparator" max="32767" attributes="0"/>
+                      <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
+                      <Component id="custProcessProgressBar" max="32767" attributes="0"/>
                   </Group>
-                  <Component id="distCheckBox" alignment="1" max="32767" attributes="0"/>
-                  <Component id="distSeparator" max="32767" attributes="0"/>
-                  <Component id="manifestCheckBox" alignment="0" max="32767" attributes="0"/>
+                  <Component id="custSeparator" alignment="0" max="32767" attributes="0"/>
+                  <Component id="defSeparator" alignment="0" max="32767" attributes="0"/>
+                  <Component id="manifestSeparator" alignment="0" max="32767" attributes="0"/>
                   <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="manifestSeparator" max="32767" attributes="0"/>
-                  </Group>
-                  <Group type="102" attributes="0">
                       <EmptySpace min="23" pref="23" max="-2" attributes="0"/>
-                      <Component id="manifestProgressBar" max="32767" attributes="0"/>
+                      <Component id="defProgressBar" pref="646" max="32767" attributes="0"/>
                   </Group>
-                  <Group type="102" attributes="0">
+                  <Component id="defCheckBox" max="32767" attributes="0"/>
+                  <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="23" pref="23" max="-2" attributes="0"/>
                       <Component id="distProgressBar" max="32767" attributes="0"/>
                   </Group>
+                  <Component id="distCheckBox" max="32767" attributes="0"/>
+                  <Component id="distSeparator" alignment="1" max="32767" attributes="0"/>
                   <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" attributes="0">
-                              <EmptySpace min="23" pref="23" max="-2" attributes="0"/>
-                              <Component id="defProgressBar" max="32767" attributes="0"/>
-                          </Group>
-                          <Component id="defCheckBox" max="32767" attributes="0"/>
-                      </Group>
+                      <EmptySpace min="23" pref="23" max="-2" attributes="0"/>
+                      <Component id="manifestProgressBar" max="32767" attributes="0"/>
+                  </Group>
+                  <Component id="manifestCheckBox" max="32767" attributes="0"/>
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace min="-2" pref="23" max="-2" attributes="0"/>
+                      <Component id="custProgressBar" max="32767" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" attributes="0">
-                              <EmptySpace min="23" pref="23" max="-2" attributes="0"/>
-                              <Component id="custProgressBar" max="32767" attributes="0"/>
-                          </Group>
-                          <Component id="custCheckBox" max="32767" attributes="0"/>
-                      </Group>
+                      <Component id="customDirectoryPathLabel" max="32767" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
@@ -110,7 +97,9 @@
               <Component id="customDirectorySeparator" min="-2" pref="10" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="custCheckBox" min="-2" max="-2" attributes="0"/>
-              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <Component id="custProcessProgressBar" min="-2" pref="18" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
               <Component id="custProgressBar" min="-2" pref="22" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="custSeparator" min="-2" pref="10" max="-2" attributes="0"/>
@@ -132,7 +121,7 @@
               <Component id="manifestProgressBar" min="-2" pref="22" max="-2" attributes="0"/>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Component id="manifestSeparator" min="-2" pref="10" max="-2" attributes="0"/>
-              <EmptySpace max="32767" attributes="0"/>
+              <EmptySpace pref="240" max="32767" attributes="0"/>
               <Component id="startButton" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
@@ -248,6 +237,16 @@
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="startButtonActionPerformed"/>
       </Events>
+    </Component>
+    <Component class="javax.swing.JProgressBar" name="custProcessProgressBar">
+      <Properties>
+        <Property name="bounds" type="java.awt.Rectangle" editor="org.netbeans.beaninfo.editors.RectangleEditor">
+          <Rectangle value="[0, 0, 0, 0]"/>
+        </Property>
+      </Properties>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="18"/>
+      </AuxValues>
     </Component>
   </SubComponents>
 </Form>
